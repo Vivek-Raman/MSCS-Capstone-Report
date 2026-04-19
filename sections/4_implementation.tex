@@ -1,5 +1,47 @@
 \section{Implementation}
 
+\subsection{User interface}
+
+\subsubsection{New project page}
+Form interface allowing users to create a new LaTeX project, with options to set project name, template selection, and initial configuration, as seen in Figure \ref{fig:ui-newproject}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.67\linewidth]{figures/ui-newproject.png}
+    \caption{New project template selection interface}
+    \label{fig:ui-newproject}
+\end{figure}
+
+\subsubsection{Recent projects page}
+Dashboard displaying a list of the user's recently accessed projects with options to open, rename, or delete them, as seen in Figure \ref{fig:ui-dashboard}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.67\linewidth]{figures/ui-dashboard.png}
+    \caption{Dashboard interface showing recent projects}
+    \label{fig:ui-dashboard}
+\end{figure}
+
+\subsubsection{Project preview}
+The project workspace with the preview interface. The user can see their document draft and interact with a chatbot using the conversation panel, as seen in Figure \ref{fig:ui-docpreview}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/ui-docpreview.png}
+    \caption{Project preview with chat interface}
+    \label{fig:ui-docpreview}
+\end{figure}
+
+\subsubsection{Source editor}
+Text editor for directly editing \LaTeX\ source code with syntax highlighting, line numbers, and code assistance features, as seen in Figure \ref{fig:ui-doceditor}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/ui-editor.png}
+    \caption{Project source code editor interface}
+    \label{fig:ui-editor}
+\end{figure}
+
 \subsection{Agent design}
 
 \subsubsection{System prompt}
@@ -17,7 +59,7 @@ The graph structure ensures reliable state transitions and supports checkpoint-b
 
 \subsubsection{Tool suite}
 
-The agent has access to seven core tools:
+The agent has access to seven core tools, as tabulated in Table \ref{tab:agent_tools}.
 
 \begin{table}[htbp]
 \centering
@@ -86,24 +128,48 @@ The output PDF file path is displayed to the user upon successful generation.
 Compilation can be initiated by either the user or the agent.
 In the agent's case, the compilation status and error message are used to iteratively debug and fix the document.
 
-\subsection{Test suite}
-
-\subsubsection{Architecture}
-\subsubsection{Test design}
-
-\textbf{Tool Invocation Statistics}
-
-The benchmark tracks tool usage by counting the number of times each tool is invoked during a conversation.
-High tool invocation counts may indicate thorough exploration (positive) or inefficient looping (negative), depending on context.
-Tool usage patterns reveal agent reasoning depth and can highlight opportunities for better prompting or tool design.
-
-\subsection{User interface}
-
-\subsubsection{Sign-in page}
-\subsubsection{New project page}
-\subsubsection{Recent projects page}
-\subsubsection{Project editor}
-\subsubsection{Source editor}
-
 \subsection{User guide}
 
+% TODO
+
+\subsection{Benchmark}
+
+The benchmark module is designed for testing the performance of various language models through the Spartan Write agent.
+This is achieved using a reproducible test suite, consisting of a series of test documents and user requests along with different scoring metrics.
+The benchmark module consists of four core components:
+\begin{itemize}
+    \item a CLI runner for orchestration;
+    \item a scoring engine for metric evaluation;
+    \item SQLite database storage for persistence;
+    \item and a Streamlit dashboard for result visualization.
+\end{itemize}
+
+\subsubsection{Flow}
+
+The benchmark execution follows a well-defined pipeline.
+\begin{itemize}
+    \item First, the dataset is loaded into the result directory and the database is initialized.
+    \item For each test case, the tool prepares a workspace directory and sends the prompt to the agent server.
+    \item After the chat completes, the scoring engine processes results to extract tool usage, duration, and token consumption metrics.
+    \item These metrics are stored in the database.
+    \item The dashboard then aggregates results from the database and renders interactive visualizations.
+\end{itemize}
+
+\subsubsection{Tests design}
+
+% TODO
+
+\subsubsection{Scoring metrics}
+
+The scoring engine evaluates three primary metrics across each benchmark run.
+\textbf{Tool use} aggregates tool calls by name and counts invocations per tool type, providing insight into which capabilities the LLM utilized.
+\textbf{Chat duration} calculates the time taken for the agent to complete the task. This is primarily used to identify degradation in performance due to LLM updates or provider outages.
+\textbf{Token usage} sums input tokens, output tokens, and reasoning tokens across all AI messages, tracking resource consumption.
+
+\section{Dashboard}
+
+The dashboard provides a Streamlit-based interactive web interface \cite{streamlit} that loads all results from the benchmark database and organizes them by model and test job .
+Users can filter results by selected models, execution status (pending/complete/failed), error presence, and keyword search across job IDs and test summaries.
+The interface renders Plotly charts \cite{plotly} comparing scores across models and showing score distributions for deeper analysis.
+Dashboard views also display run-level details including error messages, chat results, and individual run metrics.
+Results are grouped by test job ID, with derived fields showing the latest status and scores from the most recent run of each job.
