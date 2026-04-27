@@ -1,0 +1,25 @@
+\section{Related Work}
+
+\subsection{\LaTeX\ authoring and usability}
+
+\LaTeX\ offers substantial control over technical and scientific documents, but this control comes at the cost of requiring authors to understand the language's syntax and semantics.
+While experienced \LaTeX\ users may be more efficient in drafting their documents, the same is not observed among first-time or one-time users.
+Studies identify that \LaTeX\ is particularly powerful in rendering mathematical expressions and equations, a strength recognized by experienced and inexperienced users alike and exploited for higher efficiency \cite{knauff_efficiency_2014}.
+Common general-purpose document processing software like Microsoft Word, Google Docs, and LibreOffice recognize the same value and allow authors to embed snippets of \LaTeX\ code to render mathematical sections within documents authored on their platforms \cite{matthews_craft_2019}.
+However, rendering a table using the language is difficult to get right due to its complicated syntax, and even experts regularly struggle with this task \cite{knauff_efficiency_2014}.
+
+\subsection{Automated \LaTeX\ generation}
+
+The complexity of \LaTeX\ syntax can be attributed to the extent of detail and control it affords, but the consequence is that rendering even a basic component can become difficult.
+For this reason, researchers have explored ways to simplify the process of writing \LaTeX\ code.
+Echoing the challenge of creating tables in \LaTeX, Kayal et al. built a system to recognize tables using OCR and render tables using a ResNet transformer \cite{kayal_tables_2023}.
+A similar solution was explored by Xia et al. to convert images and tables to \LaTeX-compatible code \cite{xia_latexnet_2025}, collecting images and tables along with their corresponding \LaTeX\ code from the preprint repository ArXiv and training an image multiplexer convolutional neural network.
+They observed high similarity across the generated and expected code.
+
+\subsection{Generative AI in academic writing}
+
+The surge in LLMs and GenAI has seen widespread adoption in fields like creative work, software development, data analysis, and beyond.
+However, students and researchers in academia are strongly advised against using GenAI uncritically in their work.
+Studies show heightened usage of LLMs across research publications and associate it with lowered material quality, increased communication inaccuracy, and abnormal shifts in language and vocabulary \cite{kobak_delving_2025}.
+For these reasons and more, surveys reveal that GenAI usage is generally shunned in academia \cite{kwon_survey_2025}.
+Although scholars in STEM-based fields are more welcoming of GenAI as a tool whose usage may be accepted with responsible disclosure, scholars in non-STEM fields are more strictly against the usage of GenAI in their literature.

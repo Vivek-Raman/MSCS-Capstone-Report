@@ -121,8 +121,8 @@ A sample run is depicted in Figure \ref{fig:agent-convo}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.67\linewidth]{figures/agent-convo.png}
-    \caption{Caption} % TODO
+    \includegraphics[width=0.9\linewidth]{figures/agent-convo.excalidraw.png}
+    \caption{Some sample conversations with the agent, powered by GPT-5.4}
     \label{fig:agent-convo}
 \end{figure}
 
@@ -132,6 +132,22 @@ Every agent interaction is tracked and transmitted to PostHog \cite{posthog} to 
 This includes precise token consumption, measuring both input and output volume, tagged with structured metadata such as user ID, model specifications, tool invocations, and session outcomes.
 By aggregating these metrics by user, model, and time period, the system provides granular insights into computational costs and infrastructure scaling.
 These data points power real-time dashboards that monitor LLM quality and user feedback, directly informing decisions regarding billing logic, usage quotas, and feature development.
+
+The dashboard is seen in Figure \ref{fig:posthog-dashboard}, providing a high level visual overview of the usage, performance, and cost analysis of the application, while Figure \ref{fig:posthog-userwise} shows the usage per user.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/posthog-dashboard.png}
+    \caption{PostHog LLM analytics dashboard}
+    \label{fig:posthog-dashboard}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/posthog-userwise.png}
+    \caption{PostHog user-wise usage and cost information}
+    \label{fig:posthog-userwise}
+\end{figure}
 
 \subsubsection{Safety \& ethical constraints}
 
@@ -194,7 +210,7 @@ They can be categorized as follows.
 \centering
 \begin{tabularx}{\textwidth}{|l|X|}
 \hline
-\textbf{Test ID} & \textbf{Description} \\
+\textbf{Test ID} & \textbf{Descrx4iption} \\
 \hline
 000-empty-section & Create a new empty section with a specified name. \\
 \hline
