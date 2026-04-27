@@ -6,19 +6,27 @@ This allows publishers and editors to alter or enforce consistency in formatting
 
 While \LaTeX\ eases the editorial process for publishers, it requires authors to learn its syntax and semantics.
 This burden is especially visible for first-time or occasional users, who must manage markup while also developing the content of their work.
-At the same time, academic use of large language models (LLMs) and generative artificial intelligence (GenAI) remains ethically sensitive, leaving scholars without a clear path to use AI productivity gains responsibly.
-With a purpose-built tool that respects the ethical considerations of the academic community, students, researchers, and publishers can benefit from support for the day-to-day issues that tend to slow down the research and publication process.
+
+In parallel, large language models (LLMs) and generative artificial intelligence (GenAI) have become powerful productivity tools across many domains.
+However, in academic contexts, GenAI adoption raises serious ethical concerns.
+Many scholars worry that using GenAI tools risks compromising academic integrity—either through inadvertent plagiarism, hallucinated citations and claims, or unauthorized content synthesis that obscures the boundaries between original scholarship and machine-generated text.
+These concerns have made researchers hesitant to adopt AI assistance, leaving them without a clear path to benefit from AI productivity gains while maintaining ethical standards.
+
+Spartan Write addresses this tension by reimagining how AI can assist academic writing \textit{without} the ethical pitfalls of general-purpose GenAI.
+The key principle guiding Spartan Write is this: \textbf{the tool only works with content that the author provides}. It does not generate, hallucinate, or synthesize new claims, arguments, or evidence.
+Instead, it focuses entirely on the technical and structural aspects of academic writing—formatting, organization, and presentation.
 
 This report introduces Spartan Write, an AI-powered document authoring platform designed for scholars and researchers preparing academic reports, articles, papers, and theses.
 At its core, Spartan Write pairs an intelligent agent with \LaTeX, enabling users to draft, edit, and refine documents through natural conversation.
-The agent assists with generating sections, structuring tables, managing figure placement and captions, and handling LaTeX formatting, all without requiring users to write raw markup.
+The agent assists with structuring tables, managing figure placement and captions, handling LaTeX formatting, and organizing user-provided content, all without requiring users to write raw markup.
+The agent \textit{never} generates section content or original text; instead, users provide their ideas and writing, and the agent handles the mechanical work of translating that into proper academic formatting and structure.
 To ensure consistency and reduce formatting overhead, Spartan Write provides curated document templates spanning common academic genres.
-The result is a seamless blend of conversational AI and professional typesetting, letting researchers focus on content rather than technical details.
+The result is a seamless blend of conversational AI and professional typesetting, letting researchers focus on scholarly content while AI handles the technical details.
 Figure \ref{fig:authoring-workflow} depicts the improvement proposed by Spartan Write to the authoring workflow.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=.9\linewidth]{figures/authoring-workflow.excalidraw.png}
-    \caption{Comparison of authoring workflows using \LaTeX\ (L) vs Spartan Write (R)}
+    \caption{AI automation eliminates context-switching between content creation and \LaTeX\ markup.}
     \label{fig:authoring-workflow}
 \end{figure}

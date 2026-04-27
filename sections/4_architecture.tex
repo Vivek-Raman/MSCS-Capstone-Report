@@ -31,7 +31,7 @@ Spartan Write's frontend is built with React.js \cite{react} on Tauri, enabling 
 
 \subsubsection{Development tooling and libraries}
 
-The frontend leverages modern development tooling to ensure productivity and maintainability while maximizing accessiblity.
+The frontend leverages modern development tooling to ensure productivity and maintainability while maximizing accessibility.
 
 \begin{itemize}
     \item Tauri provides seamless integration with native system APIs while minimizing binary size, making it ideal for resource-conscious deployment across diverse user environments \cite{tauri}.
@@ -78,7 +78,7 @@ There is an onboarding flow for new users, and a settings page displaying user p
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\linewidth]{figures/architecture.excalidraw.png}
-    \caption{Architecture of the Spartan Write system}
+    \caption{Three-module architecture: frontend for editing, sidecar for local operations, cloud agent for stateless scaling.}
     \label{fig:architecture}
 \end{figure}
 
@@ -128,7 +128,7 @@ The sidecar provides tools for both of these purposes.
 \subsubsection{Settings, health, and lifecycle}
 
 The sidecar manages project-specific and user-level configuration, including user information, API credentials in case the user is able to provide their own API key, and authentication tokens, persisting these settings locally for quick access and offline operation.
-To ensure resource efficiency, the sidecar implements parent process monitoring: if the desktop application terminates, the didecar automatically exits, preventing orphaned processes.
+To ensure resource efficiency, the sidecar implements parent process monitoring: if the desktop application terminates, the sidecar automatically exits, preventing orphaned processes.
 
 In summary, the sidecar encapsulates all local, filesystem-bound operations, compilation, and configuration management.
 By handling these responsibilities locally, the sidecar enables offline-first workflows, fast feedback, and keeps the cloud server lightweight and stateless, focused solely on running the AI agent and managing user authentication and analytics.

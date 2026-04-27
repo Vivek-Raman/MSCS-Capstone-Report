@@ -43,7 +43,7 @@ This answers question~(1): the selected models can adequately complete the tasks
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/bench-run-status.png}
-    \caption{Run status by language model}
+    \caption{Near-ceiling reliability; failures reveal capability gaps rather than systemic issues.}
     \label{fig:bench-run-status}
 \end{figure}
 
@@ -57,7 +57,7 @@ This answers question~(2): task difficulty on the suite is dominated by document
 \begin{figure}[htb]
     \centering
     \includegraphics[width=1\linewidth]{figures/bench-duration-by-job.png}
-    \caption{Average chat duration per task overlaid with individual run durations}
+    \caption{Task difficulty dominated by large-document edits; narrow manipulations complete quickly.}
     \label{fig:bench-duration-by-job}
 \end{figure}
 
@@ -92,7 +92,7 @@ This answers question~(3) and provides a first diagnostic for question~(7): a di
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/bench-tokens-per-model.png}
-    \caption{Average input and completion tokens per run, stacked per model.}
+    \caption{Token consumption varies 3x-4x: heavier models show redundant context or inefficient tools.}
     \label{fig:bench-tokens-per-model}
 \end{figure}
 
@@ -126,7 +126,7 @@ This answers question~(4): the duration is predictable from token volume for six
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/bench-duration-vs-tokens.png}
-    \caption{Chat duration against total tokens (input $+$ output), coloured by model.}
+    \caption{Duration scales predictably with tokens; deepseek-v3.2 is an outlier showing provider latency.}
     \label{fig:bench-duration-vs-tokens}
 \end{figure}
 
@@ -141,7 +141,7 @@ This answers question~(5) and frames the cost vs. quality trade-off.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/bench-cost-per-model.png}
-    \caption{Mean USD cost per completed run, averaged over all completed runs per model.}
+    \caption{Cost varies two orders of magnitude; budget models match flagship performance.}
     \label{fig:bench-cost-per-model}
 \end{figure}
 
@@ -179,7 +179,7 @@ This implies that on this workload, the smaller model is cheaper but not meaning
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\linewidth]{figures/bench-duration-modelwise.png}
-    \caption{Mean chat duration per task, grouped by model.}
+    \caption{Model-specific patterns: Gemini fastest, DeepSeek slow on documents, GPT variants similar.}
     \label{fig:bench-duration-modelwise}
 \end{figure}
 
@@ -194,7 +194,7 @@ The heatmap therefore complements rather than replaces the scoring discussion ab
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/bench-tool-use.png}
-    \caption{Average tool invocations per completed run, per model.}
+    \caption{Tool patterns differ: DeepSeek re-reads excessively, Gemini restructures in-place, GPT avoids renames.}
     \label{fig:bench-tool-use}
 \end{figure}
 
