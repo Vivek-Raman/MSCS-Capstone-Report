@@ -1,8 +1,8 @@
 \begin{abstract}
-Preparing academic documents in \LaTeX\ demands a steep learning curve that slows researchers and students alike, yet general-purpose word processors lack the precision and output quality required for scholarly publishing.
+Preparing academic documents in LaTeX demands a steep learning curve that slows researchers and students alike, yet general-purpose word processors lack the precision and output quality required for scholarly publishing.
 At the same time, the academic community holds strong reservations about the uncritical use of generative AI, leaving scholars without access to the productivity gains it could offer.
-This report presents Spartan Write, a cross-platform desktop application that resolves this tension by pairing an agentic large language model (LLM) with a \LaTeX\ authoring environment.
-Users converse with the agent in natural language to draft sections, structure tables, place figures, and correct formatting errors; all raw markup is managed automatically, with no \LaTeX\ knowledge required.
+This report presents Spartan Write, a cross-platform desktop application that resolves this tension by pairing an agentic large language model (LLM) with a LaTeX authoring environment.
+Users converse with the agent in natural language to draft sections, structure tables, place figures, and correct formatting errors; all raw markup is managed automatically, with no LaTeX knowledge required.
 
 The system is structured into three principal modules: a Tauri/React frontend providing a dual-mode source-and-preview editor with accessibility features and project management; a local FastAPI sidecar that handles filesystem operations, Tectonic-based compilation, and image processing; and a cloud-hosted LangGraph agent that orchestrates multi-turn conversations, executes document-manipulation tools, and enforces ethical-use constraints and authentication via WorkOS.
 A reproducible benchmark suite was developed to evaluate seven LLM endpoints across a specialized dataset of document-editing tasks, measuring task completion, token consumption, wall-clock duration, cost, and tool-use patterns.

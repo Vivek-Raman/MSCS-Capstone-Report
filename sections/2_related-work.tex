@@ -16,6 +16,19 @@ Echoing the challenge of creating tables in \LaTeX, Kayal et al. built a system 
 A similar solution was explored by Xia et al. to convert images and tables to \LaTeX-compatible code \cite{xia_latexnet_2025}, collecting images and tables along with their corresponding \LaTeX\ code from the preprint repository ArXiv and training an image multiplexer convolutional neural network.
 They observed high similarity across the generated and expected code.
 
+OpenAI developed a tool called Prism that closely resembles the functionality of Spartan Write \cite{openai_prism}.
+Prism allows researchers to edit their documents using natural language.
+The tool maintains the \LaTeX\ code for the document, similar to Spartan Write's architecture.
+However, Prism envisions a new ethical framework for the use of AI in academic writing, when the author claims ownership of generated content.
+As observed in the following section, academia is generally against generated content in research publications.
+Spartan Write aims to find a balance, bringing the benefits of AI assistance to the academic community without compromising the ethical stance.
+
+Tools similar to Prism are in active development.
+An open source reimagination called OpenPrism \cite{github_openprism} seeks to rebuild the functionality of Prism using open-source tools.
+Bibby AI \cite{bibby_ai} is a tool that generates code from natural language requests.
+Autype is another tool that eliminates the usage of \LaTeX\ code, instead opting for markdown-like syntax \cite{autype}.
+Being imitations of Prism, they share the same issues that Prism faces.
+
 \subsection{Generative AI in academic writing}
 
 The surge in LLMs and GenAI has seen widespread adoption in fields like creative work, software development, data analysis, and beyond.
@@ -23,3 +36,28 @@ However, students and researchers in academia are strongly advised against using
 Studies show heightened usage of LLMs across research publications and associate it with lowered material quality, increased communication inaccuracy, and abnormal shifts in language and vocabulary \cite{kobak_delving_2025}.
 For these reasons and more, surveys reveal that GenAI usage is generally shunned in academia \cite{kwon_survey_2025}.
 Although scholars in STEM-based fields are more welcoming of GenAI as a tool whose usage may be accepted with responsible disclosure, scholars in non-STEM fields are more strictly against the usage of GenAI in their literature.
+
+PaperDebugger \cite{paperdebugger} is an extension system developed as an overhaul to Overleaf, the popular online LaTeX editor.
+It uses a plugin-based multi-agent system to assist with common tasks like writing, reviewing, and editing a paper.
+This tool has gained traction and is widely used, as seen by the metrics on the code repository.
+
+A review summarizes eleven studies between 2021 and 2023 on the usage of AI in academic writing \cite{guo_review_2024}.
+Observed benefits were in tasks like "academic text generation, plagiarism detection, and language learning support".
+However, the studies also highlighted concerns regarding integrity, accuracy, plagiarism, and over-reliance leading to cognitive offloading.
+
+Another survey compiles information from 24 studies and identified various avenues where AI positively impacts the academic writing process.
+The main factors were in brainstorming ideas, improving content structure, literature review, data management and analysis, and proofreading.
+They too cite concerns regarding integrity.
+
+The general consensus is that AI is extremely helpful in the process, and so long as it is deployed in a way that does not breach the ethical considerations of the academic community, it offers considerable benefits in quality, efficency, and productivity.
+
+\subsection{Other tools}
+
+Surveying other tools that may be able to solve the same problem as Spartan Write, it is possible to use agentic harnesses like Cursor, Copilot, Claude, or OpenAI Codex to perform the same tasks.
+However, Spartan Write differs from these solutions in several ways.
+First, it is a purpose-built tool for academic writing, rather than a general-purpose tool.
+The templates are curated by hand, guaranteeing consistent outputs rather than generating mediocre templates on the fly.
+The agent is closely tied to the compiler, and everything ships as one package.
+This allows the agent to be aware of failures or warnings created in the compilation process, which it can immediately correct.
+Lastly, usage of a dedicated framework allows for updates, improvements, and safeguards against ethical violations.
+\LaTeX\ was adopted by the academic community for its consistency and reliability; qualities that Spartan Write aims to exhibit as well.
