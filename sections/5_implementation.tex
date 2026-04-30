@@ -262,10 +262,10 @@ They can be categorized as follows.
     These tests validate search accuracy across different scenarios: exact string matching for precise deletions, and semantic fuzzy matching for content-aware removal across multiple similar passages.
     Failures in this category would reveal whether the model struggles with context-aware removal, incorrectly handles ambiguous references, or lacks the precision needed for targeted edits.
 \item \textbf{Document understanding and synthesis} \\
-    Tests 005 and 012 measure the LLM's comprehension of full documents and its ability to generate summaries or new content in context. Test 005 requires distilling a large document into a coherent summary, while test 012 requires generating new content (a ``Related Work'' section) that matches the document's scope and tone. Failures would suggest poor long-context comprehension or an inability to maintain consistency with existing document material.
+    Tests 005 and 012 measure the LLM's comprehension of full documents and its ability to generate summaries or new content in context. Test 005 requires distilling a large document into a coherent summary, while test 012 requires generating new content that matches the document's scope and tone. Failures would suggest poor long-context comprehension or an inability to maintain consistency with existing document material.
 \item \textbf{Error recovery and problem diagnosis} \\ 
     Tests 014 and 015 assess the LLM's ability to recognize and fix broken \LaTeX\ documents with varying degrees of explicitness.
-    Test 014 provides an explicit ``Fix the document'' instruction, while test 015 uses an indirect instruction to infer the need for repairs.
+    Test 014 provides an explicit ''Fix the document'' instruction, while test 015 uses an indirect instruction to infer the need for repairs.
     These tests measure diagnostic capability and responsiveness to both explicit and implicit problem-solving cues.
     Failures would indicate weak error detection, an inability to infer intent from context, or insufficient \LaTeX\ syntax knowledge.
 \item \textbf{Multimodal integration} \\ 

@@ -229,15 +229,8 @@ Taken together, the dashboard supports four concrete findings.
 On the basis of the metrics collected in this study, the recommended default model for the agent is \texttt{google/gemini-3-flash-preview}.
 It combines a $100\%$ task-level completion rate on the non-multimodal portion of the suite with the lowest mean chat duration ($12.9$\,s) and the second-lowest mean cost ($\$0.0094$ per run), and its tool-use strategy aligns well with the document-scale editing tasks that dominate the benchmark.
 
-\texttt{x-ai/grok-4-fast} is a credible secondary choice where cost is the overriding concern: at $\$0.0032$ per run it is roughly $3\times$ cheaper again, though its slightly longer mean duration ($16.4$\,s) makes it marginally less suited to an interactive chat
-experience.
+\texttt{x-ai/grok-4-fast} is a credible secondary choice where cost is the overriding concern: at $\$0.0032$ per run it is roughly $3\times$ cheaper again, though its slightly longer mean duration ($16.4$\,s) makes it marginally less suited to an interactive chat experience.
 
-The Anthropic models, while functionally reliable, are between
-one and two orders of magnitude more expensive per run than these two
-alternatives and cannot be justified for this workload until a quality
-metric is added to the benchmark that demonstrates a correspondingly large
-improvement in output correctness.
+The Anthropic models, while functionally reliable, are between one and two orders of magnitude more expensive per run than these two alternatives and cannot be justified for this workload until a quality metric is added to the benchmark that demonstrates a correspondingly large improvement in output correctness.
 
-DeepSeek~v3.2 is not recommended in any
-configuration, owing to both its missing multimodal support and its
-redundant-read behaviour on large-document tasks.
+DeepSeek~v3.2 is not recommended in any configuration, owing to both its missing multimodal support and its redundant read behaviour on large-document tasks.
