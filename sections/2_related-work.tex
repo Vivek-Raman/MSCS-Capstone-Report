@@ -1,63 +1,68 @@
 \section{Related Work}
 
-\subsection{\LaTeX\ authoring and usability}
+\subsection{\LaTeX\ usability}
 
-\LaTeX\ affords substantial control over technical and scientific documents, but this control comes at the cost of requiring authors to understand the language's syntax and semantics.
+\LaTeX\ affords substantial control over technical and scientific documents.
 While experienced \LaTeX\ users may be more efficient in drafting their documents, the same is not observed among first-time or one-time users.
-Studies show that \LaTeX\ is particularly powerful at rendering mathematical expressions and equations, a strength recognised by experienced and inexperienced users alike and exploited to improve efficiency \cite{knauff_efficiency_2014}.
-Common general-purpose document processing software like Microsoft Word, Google Docs, and LibreOffice recognise the same value and allow authors to embed snippets of \LaTeX\ code to render mathematical sections within documents authored on their platforms \cite{matthews_craft_2019}.
-However, rendering a table is difficult to get right due to its complicated syntax, and even experts regularly struggle with this task \cite{knauff_efficiency_2014}.
+\LaTeX\ is good at rendering mathematical expressions \cite{knauff_efficiency_2014}.
+General-purpose document processing softwares like Microsoft Word, Google Docs, and LibreOffice recognise this and allow authors to embed snippets of \LaTeX\ to render mathematical sections within their documents \cite{matthews_craft_2019}.
+On the other hand, rendering a table is difficult to get right due to its complicated syntax, and even experts regularly struggle with this task \cite{knauff_efficiency_2014}.
 
 \subsection{Automated \LaTeX\ generation}
 
-The complexity of \LaTeX\ syntax can be attributed to the extent of detail and control it affords, but the consequence is that rendering even a basic component can become difficult.
+The complexity of \LaTeX\ syntax can be attributed to the extent of detail and control it affords.
+Unfortunately, the consequence is that rendering even a basic component can become difficult.
 For this reason, researchers have explored ways to simplify the process of writing \LaTeX\ code.
-Following the challenge of creating tables in \LaTeX, Kayal et al. built a system to recognise tables using OCR and render tables using a ResNet transformer \cite{kayal_tables_2023}.
-A similar solution was explored by Xia et al. to convert images and tables to \LaTeX-compatible code \cite{xia_latexnet_2025}, collecting images and tables along with their corresponding \LaTeX\ code from the preprint repository ArXiv and training an image-multiplexer convolutional neural network.
+To address the challenge of creating tables in \LaTeX, Kayal et al. built a system to recognise tables using OCR and render tables using a ResNet transformer \cite{kayal_tables_2023}.
+A similar solution was explored by Xia et al. to convert images and tables to \LaTeX \cite{xia_latexnet_2025}.
+They collected images and tables along with their corresponding \LaTeX\ source code from the preprint repository ArXiv and trained an image-multiplexer convolutional neural network.
 They observed high similarity between the generated and expected code.
+However, these solutions are developed as prototypes.
+Also, as they are trained on data instead of the syntax, they fail at edge cases and unexpected requests.
 
 OpenAI developed a tool called Prism that closely resembles the functionality of Spartan Write \cite{openai_prism}.
 Prism allows researchers to edit their documents using natural language.
 The tool maintains the \LaTeX\ code for the document internally, similar to Spartan Write's architecture.
-However, Prism envisions a new ethical framework for the use of AI in academic writing, in which the author claims ownership of the generated content.
+However, Prism is more relaxed in its vision of academic integrity.
+It performs proofreading, edits, literature surveys, and other operations that freely alter the document contents.
 As discussed in the following section, academia is generally opposed to the use of generated content in research publications.
 Spartan Write aims to find a balance, bringing the benefits of AI assistance while upholding this.
 
 Tools similar to Prism are in active development.
-An open-source reimagination called OpenPrism \cite{github_openprism} seeks to rebuild Prism's functionality using open-source tools.
+An open-source alternative called OpenPrism \cite{github_openprism} seeks to rebuild Prism's functionality using open-source tools.
 Bibby AI \cite{bibby_ai} is a tool that generates code from natural language requests.
 Autype is another tool that eliminates the usage of \LaTeX\ code, instead opting for markdown-like syntax \cite{autype}.
 Being imitations of Prism, they share the same issues that Prism faces.
 
 \subsection{Generative AI in academic writing}
 
-The surge in LLMs and GenAI has seen large-scale adoption in disciplines like creative work, software development, and data analysis.
-However, students and researchers in academia are strongly advised against using GenAI uncritically in their work.
-Studies show heightened usage of LLMs across research publications and associate it with lowered material quality, increased communication inaccuracy, and abnormal shifts in language and vocabulary \cite{kobak_delving_2025}.
-For these reasons and more, surveys reveal that GenAI usage is generally shunned in academia \cite{kwon_survey_2025}.
-Although scholars in STEM-adjacent fields are more welcoming of GenAI as a tool whose usage may be accepted with responsible disclosure, scholars in non-STEM fields are more strictly against the usage of GenAI in their literature.
+The surge in LLMs and GenAI has seen large-scale adoption in disciplines like creative work and software development.
+However, students and researchers in academia are strongly advised against using GenAI in their work.
+Studies show increased usage of LLMs across publications and associate it with lowered material quality, communication inaccuracy, abnormal patterns, and other issues \cite{kobak_delving_2025}.
+For these reasons, surveys reveal that GenAI usage is generally shunned in academia \cite{kwon_survey_2025}.
 
-PaperDebugger \cite{paperdebugger} is an extension system developed as an overhaul to Overleaf, the popular online LaTeX editor.
-It uses a plugin-based multi-agent system to assist with common tasks like writing, reviewing, and editing a paper.
-This tool e,.is widely used as evidenced by the metrics in the code repository.
-
-A review summarizes eleven studies between 2021 and 2023 on the usage of AI in academic writing \cite{guo_review_2024}.
-Observed benefits were within tasks like "academic text generation, plagiarism detection, and language learning support"  \cite{guo_review_2024}.
+A review summarizes eleven studies between 2021 and 2023 on the usage of AI in academic writing.
+It reports productivity wins in tasks like plagiarism detection and language learning support \cite{guo_review_2024}.
 However, the studies also emphasised concerns regarding integrity, accuracy, plagiarism, and over-reliance.
 
 Another survey compiled information from 24 studies and identified various ways in which AI positively impacts the academic writing process.
-The main factors were generating ideas, improving content structure, conducting a literature review, managing and analysing data, and proofreading.
+The main factors were generating ideas, improvng content structure, conducting a literature review, managing and analysing data, and proofreading.
 They, too, cite concerns regarding integrity.
 
-The general consensus is that AI is extremely helpful in the process, and so long as it is deployed in a way that does not breach the ethical principles of the academic community, it offers considerable benefits in quality, efficiency, and productivity.
+PaperDebugger \cite{paperdebugger} is an extension system developed as an overhaul to Overleaf, the popular online LaTeX editor.
+It uses a plugin-based multi-agent system to assist with common editing tasks.
+This tool is widely used as evidenced by the download metrics in the repository.
+
+The general consensus is that AI is extremely helpful in the process.
+If it is deployed in a way that does not breach the ethical principles of the academic community, it offers considerable benefits to authors and publishers.
 
 \subsection{Other tools}
 
 Surveying other tools that may be able to solve the same problem as Spartan Write, it is possible to use agentic harnesses like Cursor, Copilot, Claude, or OpenAI Codex to perform the same tasks.
 However, Spartan Write differs from these solutions in several ways.
-First, it is a purpose-built tool for academic writing, rather than a general-purpose tool.
-The templates are curated by hand, guaranteeing consistent outputs rather than generating mediocre templates on the fly.
-The agent is closely tied to the compiler, and everything ships as one package.
-This allows the agent to be aware of failures or warnings generated during compilation, which it can immediately correct.
-Lastly, using a dedicated framework enables shipping updates, improvements, and safeguards against ethical violations.
-\LaTeX\ was adopted by the academic community for its consistency and reliability; qualities that Spartan Write aims to exhibit as well.
+First, it is a purpose-built tool for academic writing rather than a general-purpose tool.
+Safeguards for integrity can be handcrafted based on iteration.
+The templates are curated by hand to guarantee consistent outputs.
+The agent is coupled with the compiler and everything ships as one package.
+This allows the agent to be aware of failures or warnings generated during compilation.
+Lastly, using a dedicated framework enables shipping updates with fixes and new features.

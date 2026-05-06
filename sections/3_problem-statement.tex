@@ -1,24 +1,23 @@
 \section{Problem statement}
 
-Preparing academic documents remains a major bottleneck for researchers and scholars.
-\LaTeX\ offers unrivalled quality and control but demands a steep learning curve in layout, structure, and syntax.
-Writers must context-switch between content creation and markup management, dividing attention between what they want to say and how to say it in \LaTeX.
-Even experienced users spend considerable time on repetitive tasks like organising sections, placing and captioning figures, managing bibliography references, fixing inconsistencies, and more.
+\LaTeX\ offers unrivalled quality and control but demands a steep learning curve.
+Even experienced users spend considerable time on repetitive tasks.
+On the other hand, word processors like Microsoft Word or Google Docs are easy to use, but they fall short in terms of precision and polish needed for academic publishing.
 This inefficiency cascades through the publishing pipeline as well.
-Publishers can spend hours in back-and-forth corrections with authors over formatting errors, misaligned figures, and citation inconsistencies that could have been prevented with proper tooling.
-On the other hand, word processors like Microsoft Word or Google Docs are easy to use, but they fall short in terms of precision, scalability, and polished results needed for academic publishing.
-These tools are designed for general audiences, not the specific demands of scholars.
-As a result, researchers and students face a tough choice: they either spend weeks learning the ins and outs of \LaTeX\ before they can write effectively, or settle for lower-quality documents with limited features.
-Spartan Write bridges this gap. By automating the technical side of formatting through an AI assistant, it empowers newcomers and students to create publication-ready documents—without the steep learning curve that usually comes with \LaTeX.
+Publishers can spend days in back-and-forth corrections with authors over errors that could have been prevented with proper tooling.
+
+Researchers either spend weeks learning \LaTeX\ before they can write effectively, or settle for lower-quality documents with limited flexibility.
+Spartan Write bridges this gap by automating the technical side of formatting through an AI assistant.
+It empowers newcomers and students to create publication-ready documents easily.
 
 \subsection{Functional requirements}
 
 \begin{itemize}
-    \item Create \LaTeX\ projects from pre-defined templates.
-    \item Open \LaTeX\ projects downloaded from other publishers.
+    \item Create \LaTeX\ projects using pre-defined templates.
+    \item Open templates provided by publishers.
     \item Converse with an AI agent that manages the document's source code.
-    \item Allow direct source code manipulation if desired by the user.
-    \item Support image uploads to the agent to attach to the document, or to parse and generate \LaTeX\ code, based on the user's request.
+    \item Allow direct source code manipulation by the user.
+    \item Support image uploads to the agent to attach to the document, or to parse and generate \LaTeX\ code.
     \item Evaluate and configure the best LLM and provider for the task using a reproducible test suite.
     \item Deploy a user guide for grad-level students to quickly onboard and get started.
 \end{itemize}
@@ -31,5 +30,5 @@ Spartan Write bridges this gap. By automating the technical side of formatting t
     \item Establish safeguards to ensure the agent remains within its scope.
     \item Design the agent to adhere to constraints of ethical use.
     \item Collect usage statistics for product iteration and insights.
-    \item Split the application architecture in order to establish separation of concerns.
+    \item Split the application architecture to establish separation of concerns.
 \end{itemize}

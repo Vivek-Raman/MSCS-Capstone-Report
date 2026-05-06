@@ -2,8 +2,9 @@
 
 \subsection{User interface}
 
-\subsubsection{New project page}
-Form interface that lets users create a new LaTeX project, with options to set the project name, select a template, and configure initial settings, as seen in Figure \ref{fig:ui-newproject}.
+\begin{itemize}
+\item \textbf{New project page}: 
+A form interface that lets users create a new LaTeX project, as seen in Figure \ref{fig:ui-newproject}.
 
 \begin{figure}[htb]
 \centering
@@ -12,8 +13,8 @@ Form interface that lets users create a new LaTeX project, with options to set t
 \label{fig:ui-newproject}
 \end{figure}
 
-\subsubsection{Recent projects page}
-Dashboard displaying a list of the user’s recently accessed projects with options to open, rename, or delete them, as seen in Figure \ref{fig:ui-dashboard}.
+\item \textbf{Recent projects page}:
+A dashboard displaying a list of the user's recently accessed projects, as seen in Figure \ref{fig:ui-dashboard}.
 
 \begin{figure}[htb]
 \centering
@@ -22,8 +23,9 @@ Dashboard displaying a list of the user’s recently accessed projects with opti
 \label{fig:ui-dashboard}
 \end{figure}
 
-\subsubsection{Project preview}
-The project workspace with the preview interface. The user can see their document draft and interact with a chatbot using the conversation panel, as seen in Figure \ref{fig:ui-docpreview}.
+\item \textbf{Project preview}:
+Project workspace with the preview interface.
+The user can see their document draft and interact with a chatbot using the conversation panel, as seen in Figure \ref{fig:ui-docpreview}.
 
 \begin{figure}[htb]
 \centering
@@ -32,7 +34,7 @@ The project workspace with the preview interface. The user can see their documen
 \label{fig:ui-docpreview}
 \end{figure}
 
-\subsubsection{Source editor}
+\item \textbf{Source editor}:
 Text editor for directly editing \LaTeX\ source code with syntax highlighting, line numbers, and code assistance features, as seen in Figure \ref{fig:ui-editor}.
 
 \begin{figure}[htb]
@@ -42,24 +44,29 @@ Text editor for directly editing \LaTeX\ source code with syntax highlighting, l
 \label{fig:ui-editor}
 \end{figure}
 
+\end{itemize}
+
 \subsection{Build pipeline}
 
-The build pipeline consists of several stages, as each component of the application needs to be compiled and packaged.
+The build pipeline consists of several stages.
 
 \begin{enumerate}
 \item First, the sidecar is compiled and packaged into a standalone binary using the PyInstaller system.
 \item The Tectonic binary for LaTeX compilation is then downloaded from its repository.
 \item Both binaries are copied into the Tauri source code and registered for bundling.
 \item The Tauri frontend is compiled. This includes the other binaries and creates an installable package.
-\item These steps are repeated on Windows, MacOS, and Ubuntu systems, in order to generate installable packages for each OS.
+\item These steps are repeated on all supported operating systems.
+\item The generated installers for each OS are uploaded and linked to the code repository.
 \item In parallel, the server is built and packaged as a Docker image, ready to be pulled and deployed to a server.
 \end{enumerate}
 
 \subsection{Agent design}
 
 The agent is implemented as a simple LangGraph state machine with a deterministic execution graph \cite{langgraph}.
-The agent operates under a comprehensive system prompt that defines its role as an agentic assistant capable of interpreting user requests and making intelligent document modifications.
-The prompt establishes guidelines for workflow (list files $\rightarrow$ read $\rightarrow$ edit $\rightarrow$ compile), file organisation conventions, and safety principles.
+The agent adheres to a system prompt that defines its role and capabilities.
+It is tasked with interpreting user requests and making intelligent document modifications.
+The prompt also establishes guidelines for the editing workflow (list files $\rightarrow$ read $\rightarrow$ edit $\rightarrow$ compile).
+The safety mechanisms are also defined in the prompt.
 The complete system prompt is available in Appendix \ref{apx:system-prompt}.
 
 \subsubsection{Tool suite}
@@ -91,20 +98,23 @@ The agent has access to seven core tools, as tabulated in Table \ref{tab:agent_t
 \label{tab:agent_tools}
 \end{table}
 
-\subsubsection{Tool invocation flow}
+\subsubsection{Tool invocation}
 
-When the agent decides to take an action, it invokes the appropriate tool and receives structured output (success/failure, file paths, error messages).
-Tool results are fed back into the agent loop, allowing it to respond to outcomes, handle errors, or request clarification from the user.
+When the agent decides to take an action, it invokes the appropriate tool.
+The tool result is then fed back into the agent.
+This forms a loop that allows the agent to respond to outcomes and handle errors.
+In case the agents needs additional clarification, it can request the user for information.
 
 A typical user request is handled as follows.
 
 \begin{enumerate}
 \item The agent reads the user request and starts by using the list\_files\_tool to understand the directory structure.
-\item Then it reads main.tex, as it indicates the layout of each section.
-\item Based on the user’s request, the agent then reads the specific section or sections needed to solve the problem.
+\item Then it reads main.tex to understand the layout of each section.
+\item Based on the user's request, the agent reads the specific sections needed to address the request.
 \item If there is an image, the agent uses the appropriate tool to import the image into the project.
 \item The agent writes to the requested files.
-\item The compilation tool is then invoked to check for errors. In case of any errors, the agent repeats the process to resolve them.
+\item The compilation tool is then invoked to check for errors.
+In case of any errors, the agent repeats the process to resolve them.
 \item Finally, the agent responds with a summary of its actions.
 \end{enumerate}
 
@@ -120,24 +130,25 @@ A sample run is depicted in Figure \ref{fig:agent-convo}.
 \subsubsection{Token usage metrics}
 
 Every agent interaction is tracked and transmitted to PostHog \cite{posthog} to collect detailed performance data.
-This includes precise token consumption by measuring both the input and output volume. 
-Interactions are tagged with metadata including user ID, model specifications, tool invocations, and session outcomes.
-By aggregating these metrics by user, model, and time period, the system provides granular insights into computing expenses and infrastructure scaling.
-These data points power real-time dashboards that monitor LLM quality and user feedback.
+This information is aggregated by user, model, and time period.
+This can be used to compute expenses and scale infrastructure.
+These data points power real-time dashboards that montor LLM quality and user feedback.
 
-The dashboard is shown in Figure \ref{fig:posthog-dashboard}, providing a high-level visual overview of the application's usage, performance, and cost, while Figure \ref{fig:posthog-userwise} shows usage per user.
+The dashboard is shown in Figure \ref{fig:posthog-dashboard}.
+It provides a high-level visual overview of the application's LLM usage and costs.
+Figure \ref{fig:posthog-userwise} shows usage per user.
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=\linewidth]{figures/posthog-dashboard.png}
-\caption{Aggregate usage dashboard in PostHog}
+\caption{Aggregate LLM usage dashboard in PostHog}
 \label{fig:posthog-dashboard}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.8\linewidth]{figures/posthog-userwise.png}
-\caption{Per-account usage summary in PostHog}
+\caption{Per-account LLM usage in PostHog}
 \label{fig:posthog-userwise}
 \end{figure}
 
@@ -147,33 +158,27 @@ The agent is designed with built-in safety mechanisms.
 
 \begin{itemize}
 \item All file operations validate paths at the tooling level to prevent escaping the project directory.
-\item The prompt instructs the agent not to add unsolicited content.
-\item Compilation errors trigger error feedback instead of silent failures.
+\item The prompt instructs the agent not to add undesired content.
+\item Compilation errors trigger errors that demand the agent's attention.
 \end{itemize}
-These constraints guarantee that the agent acts as a trusted scribe rather than an autonomous modifier.
+
+These constraints guarantee that the agent acts as a trusted and consistent scribe rather than an autonomous editor.
 
 \subsection{\LaTeX\ compilation}
 
-The \LaTeX\ compilation subsystem is implemented as a sidecar component \cite{tauri_sidecar}.
+The \LaTeX\ compilation subsystem is linked to the frontend, similar to the sidecar server \cite{tauri_sidecar}.
 The system uses the Tectonic typesetting engine as its core compilation backend \cite{tectonic}.
 
-Client requests containing the target project directory invoke the Tectonic compiler via subprocess execution with configurable parameters.
-Process execution captures both standard output and error streams for diagnostic purposes.
-The output PDF file path is displayed to the user upon successful generation.
-
-Compilation can be initiated by either the user or the agent.
-In the agent’s case, the compilation status and error message are used to gradually debug and fix the document.
-
-\subsection{User guide}
-
-The user guide is a lightweight static website containing instructions and references to help users get started with Spartan Write.
-It contains step-by-step guides on installation, usage, troubleshooting, and uninstallation of the program.
-The website is built using MkDocs, a static site generator that converts markdown files into web pages \cite{mkdocs}.
+Compilation can be initiated by the user or by the agent using the compile tool.
+When it is initiated, the sidecar invokes the Tectonic engine to compile the document.
+This created the PDF file in the project directory.
+In case of errors, the engine logs the error to standard error (stderr).
+This is captured and forwarded to the user or the agent for debugging.
 
 \subsection{Benchmark}
 
 The benchmark module is designed to test the performance of various language models using the Spartan Write agent.
-This is accomplished using a reproducible test suite comprising a series of test documents and user requests, along with different scoring metrics.
+This is accomplished using a reproducible test suite comprising a series of test documents and user requests.
 The benchmark module consists of four core components:
 \begin{itemize}
 \item a CLI runner for orchestration;
@@ -182,13 +187,11 @@ The benchmark module consists of four core components:
 \item and a Streamlit dashboard for result visualisation.
 \end{itemize}
 
-\subsubsection{Flow}
-
 The benchmark execution follows a well-defined pipeline.
 \begin{itemize}
 \item First, the dataset is loaded into the result directory and the database is initialised.
 \item For each test case, the tool prepares a workspace directory and sends the prompt to the agent server.
-\item After the chat completes, the scoring engine processes results to extract tool usage, duration, and token consumption metrics.
+\item After the chat completes, the scoring engine processes results to extract metrics.
 \item These metrics are stored in the database.
 \item The dashboard then aggregates results from the database and renders interactive visualisations.
 \end{itemize}
@@ -202,7 +205,7 @@ They can be categorised as follows.
 \centering
 \begin{tabularx}{\textwidth}{|l|X|}
 \hline
-\textbf{Test ID} & \textbf{Description} \\
+\textbf{Test ID} & \textbf{Task for the agent} \\
 \hline
 000-empty-section & Create a new empty section with a specified name. \\
 \hline
@@ -212,7 +215,7 @@ They can be categorised as follows.
 \hline
 003-remove-contents-from-section & Remove a specific line from a section. \\
 \hline
-004-large-unarranged-doc & Restructure and fix an unorganised document’s file structure. \\
+004-large-unarranged-doc & Restructure and fix an unorganised document's file structure. \\
 \hline
 005-summarise-large-doc & Generate a concise summary of a large document. \\
 \hline
@@ -228,7 +231,7 @@ They can be categorised as follows.
 \hline
 011-large-rearrange-subsections & Swap subsections within a section. \\
 \hline
-012-fail-to-generate-content & Attempt to generate content to test the agent’s resilience. \\
+012-fail-to-generate-content & Attempt to generate content to test the agent's resilience. \\
 \hline
 013-large-add-image & Insert an attached diagram at a specified location. \\
 \hline
@@ -247,48 +250,57 @@ They can be categorised as follows.
 
 \item \textbf{Document structure manipulation} \\
 
-Tests 000, 001, 002, 003, 004, 006, 010, and 011 validate the core ability to create, modify, and reorganise the structure of LaTeX documents.
-Each test assesses whether the LLM can correctly parse and modify the document hierarchy, including creating sections, adding and removing content, and reordering structural elements.
-Failures in this category would indicate difficulty understanding parent-child relationships in \LaTeX\ or an inability to preserve document.
-These tests assert the basic functionality expected of the agent.
+Tests 000, 001, 002, 003, 004, 006, 010, and 011 validate the core ability to create and modify the structure of the document.
+Each test assesses whether the LLM can correctly parse and modify the document hierarchy.
+Failures in this category would indicate difficulty understanding parent-child relationships in \LaTeX.
+These tests verify the basic functionality expected of the agent.
 
 \item \textbf{Search and targeted deletion} \\
 
-Tests 007, 008, and 009 assess how well the language model can find and remove content from long documents, regardless of whether the instructions are crystal clear or a bit vague.
-These tests look at two things: how accurately the model can follow instructions when asked to delete a specific item, and how well it can make sense of less direct requests, like removing all mentions of a certain topic, even if the wording changes throughout the document.
-If a model fails here, it usually means it has trouble recognising context or isn’t precise enough when making changes.
+Tests 007 to 009 assess how well the language model can find and remove content from long documents.
+These tests look at how accurately the model can follow instructions when asked to delete a specific item
+They also test how well it can make sense of less direct requests, like removing all mentions of a certain topic.
+If a model fails here, it usually means it has trouble recognising context or isn't precise enough when making changes.
 
-\item \textbf{Document understanding and synthesis} \\
-Tests 005 and 012 check how well the language model really understands an entire document and whether it can write good summaries or add new content that actually fits the context.
+\item \textbf{Document contents} \\
+
+Tests 005 and 012 check how well the language model works with the document contents.
 Test 005 is all about distilling a large document into a clear, readable summary.
-Test 012, on the other hand, asks the model to generate new material that adheres to the style and scope of what’s already there.
-If a model struggles with these, it usually means it has trouble following longer documents or keeping its new writing in line with what’s already been written.
+Test 012, on the other hand, asks the model to generate new material that adheres to the style and scope of what's already there.
+Test 012 must be denied by the agent, as generating new content is seen as a violation of integrity.
+
 \item \textbf{Error recovery and problem diagnosis} \\
-Tests 014 and 015 look at how well the model can spot and fix broken \LaTeX\ documents, whether the instructions are direct or just hinted at.
+
+Tests 014 and 015 look at how well the model can spot and fix broken \LaTeX\ documents.
 Test 014 is simple: it tells the model plainly, "Fix the document."
-Test 015 is trickier, expecting the model to realise on its own that something needs repairing, even if the instructions aren’t obvious.
+Test 015 expects the model to realise on its own that something needs repairing.
 These tests show whether the model can diagnose problems and respond to both clear and subtle hints.
-If it fails, that’s a sign it might miss errors, not pick up on what you want, or just not know enough about \LaTeX\ to help.
-\item \textbf{Multimodal integration} \\
-Tests 013 and 016 see if the model can handle images as part of the document—either by adding image references in the right place or by describing what’s in the image.
-Test 013 checks if the model can insert an image where it belongs, and Test 016 asks for a description of what’s shown in the picture.
+
+\item \textbf{Multimodal compatibility} \\
+
+Tests 013 and 016 see if the model can handle images as part of the request.
+Test 013 checks if the model can insert an image where it belongs, and Test 016 asks for a description of what's shown in the picture.
 If the model has trouble here, it might not understand images, generate the right file references, or know where to place things in the document.
+
 \end{enumerate}
 
 \subsubsection{Scoring metrics}
 
 The scoring engine evaluates three primary metrics across each benchmark run.
-\textbf{Tool use} aggregates tool calls by name and counts invocations per tool type, providing insight into which capabilities the LLM utilized.
-\textbf{Chat duration} calculates the time taken for the agent to complete the task. This is primarily used to identify degradation in performance due to LLM updates or provider outages.
-\textbf{Token usage} sums input tokens, output tokens, and reasoning tokens across all AI messages, tracking resource consumption.
+\textbf{Tool use} aggregates tool calls by name and counts invocations per tool type.
+This provides insight into which capabilities the LLM uses.
+\textbf{Chat duration} calculates the time taken for the agent to complete the task.
+This is used to identify degradation in performance due to LLM updates or provider outages.
+\textbf{Token usage} sums input tokens, output tokens, and reasoning tokens across all AI messages.
+This tracks resource utilisation.
 
 \subsubsection{Dashboard}
 
-The dashboard provides a Streamlit-based interactive web interface \cite{streamlit} that loads all results from the benchmark database and organises them by model and test job.
-Users can filter results by selected models, execution status, error presence, and keyword search across job IDs and test summaries, as seen in Figure \ref{fig:bench-dashboard}.
-The interface renders Plotly charts \cite{plotly} that compare scores across models and display score distributions for deeper analysis.
-Dashboard views also display run-level details, including error messages, chat results, and individual run metrics.
-Results are grouped by test job ID, with derived fields showing the latest status and scores from the most recent run of each job.
+The dashboard provides a Streamlit-based interactive web interface \cite{streamlit}.
+It loads all results from the benchmark database and organises them by model and test job.
+Users can filter results by models, execution status, error presence, and keyword search across job IDs and test summaries, as seen in Figure \ref{fig:bench-dashboard}.
+The interface renders Plotly charts \cite{plotly} that compare scores across models and display score distributions.
+It also display details for each run for debugging and deeper analysis.
 
 \begin{figure}[htb]
 \centering
