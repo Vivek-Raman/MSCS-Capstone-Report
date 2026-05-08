@@ -1,29 +1,19 @@
 \section{Introduction}
 
-When researchers draft an academic document like a thesis, chapter, report, or paper, they often use \LaTeX, a typesetting system that is purpose-built to prepare technical and scientific documents \cite{latex}.
-\LaTeX\ separates the authors' content from the rules that define the document's formatting.
-This allows publishers and editors to maintain or enforce consistency in formatting without affecting the content itself.
+Academic authors frequently write using \LaTeX -- which is a typesetting system that has been specifically developed to produce high-quality technical and scientific documents \cite{latex}. 
 
-While \LaTeX\ makes it easy for editors of publications, it requires authors to learn its syntax and semantics.
-To experts and repeat authors, this is not a problem, but for students, this is a difficult ask.
+With \LaTeX\ there are two distinct layers of information; the first layer contains the author's actual writing content and the second layer represents the rules that govern how the content will appear in print.
 
-In parallel, large language models (LLMs) and generative artificial intelligence (GenAI) have become powerful productivity tools across many domains.
-However, in academic contexts, the adoption of GenAI raises concerns about academic integrity through inadvertent plagiarism or hallucinated citations and claims.
+Therefore, with \LaTeX\ it becomes possible for publication and editing staff to enforce and/or adhere to consistent formatting throughout a publication, while still allowing authors complete freedom as regards the content of their writing.
 
-This report introduces Spartan Write: an AI agent for academic documentation.
-Spartan Write is designed to provide AI assistance without altering the content.
-The key principle guiding Spartan Write is this: \textbf{the tool only works with content that the author provides}.
-It focuses entirely on layout, syntax, and formatting.
+Although \LaTeX\ greatly facilitates the work of editorial staff who manage publications, it does require authors to learn some new terminology and conventions. 
 
-At its core, Spartan Write pairs an intelligent agent with \LaTeX.
-\LaTeX\ guarantees the formatting consistency, while the agent makes edits through natural conversation.
-These edits can be to structure tables, place figures and captions, handle LaTeX syntax, or to organize content.
-The agent also supports scanning content like tables from a handwritten note and converting it into \LaTeX.
-Figure \ref{fig:authoring-workflow} depicts the improvement proposed by Spartan Write to the authoring workflow.
+For professional authors and those who regularly write academic papers, learning this new terminology and conventions is simply another part of the job. However, for many undergraduate students, learning these new terms and conventions is much more challenging.
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=.9\linewidth]{figures/authoring-workflow.excalidraw.png}
-    \caption{Manual vs agent-assisted \LaTeX\ authoring workflow}
-    \label{fig:authoring-workflow}
-\end{figure}
+Additionally, over recent years large language models (LLMs), including generative artificial intelligence (GenAI), have become increasingly effective as productivity tools across a wide range of disciplines.
+
+However, within academic environments, the increasing reliance on GenAI also poses significant risks to the maintenance of academic integrity, primarily because GenAI may inadvertently contribute to plagiarism or result in "hallucinated" references/citations.
+
+This report presents Spartan Write: An AI Agent for Academic Documentation. Spartan Write was created with the intention of providing AI support to academic authors in order to assist them during the process of creating their documentation, while at no time altering their content. The fundamental concept behind Spartan Write is as follows: **Spartan Write only uses content that the author has provided**. Therefore, Spartan Write has focused solely upon assisting authors with issues related to format, syntax and layout.
+
+At its heart, Spartan Write combines an intelligent agent with \LaTeX. While \LaTeX\ maintains control over ensuring consistent formatting, the agent assists with author input through natural conversations. This may include tasks such as structuring tables, placing figures and captions in documents written in \LaTeX, handling \LaTeX\ syntax, organizing content, etc. Additionally, the intelligent agent included in Spartan Write may also be used to scan tables (from hand-written notes) and then convert them into \LaTeX. Figure~\ref{fig:authoring-workflow} illustrates the improvement proposed by Spartan Write to the traditional authoring workflow.

@@ -1,65 +1,55 @@
 \section{Conclusion}
 
-This report introduces Spartan Write, a document authoring software powered by agentic AI.
-It discusses the shortcomings of authoring documents with general purpose word processing software.
-Then, it highlights the steep learning curve that \LaTeX-based solutions like Overleaf offer.
+Spartan Write is introduced as a document authoring software, built upon an agentic AI framework.
+The shortfalls of using general-purpose word-processing software for creating documents is then discussed. 
+Next, the steep learning curve associated with \LaTeX-based document creation systems such as Overleaf is highlighted.
 
-\subsection{Key findings and interpretation}
-The benchmark turns up a somewhat surprising insight.
-Differences in cost and latency among modern LLMs are due to the way they use tools.
 
-All capable models complete tasks at roughly the same rate (Table~\ref{tab:task-completion}).
-However, they get there using very different strategies.
-For example, DeepSeek repeatedly reads files it doesn't need, which pushes its token use up to $62{,}485$ per run, and results in a mean duration of $148.6$s (Figure~\ref{fig:bench-duration-vs-tokens}).
-This is not a problem with DeepSeek's reasoning.
-It is a side effect of tool usage behaviour.
-Gemini~3~Flash restructures in place using \texttt{rename\_file} (Figure~\ref{fig:bench-tool-use}).
-This delivers the lowest latency ($12.9$s) and the second lowest cost ($\$0.0094$ per run, Figure~\ref{fig:bench-cost-per-model}).
+\subsection{Interpretation and Key Findings}
 
-For document-editing workloads, raw model ability is only part of the story.
-The better predictor is whether the model settles into efficient tool-use patterns.
-That also means prompt and tool-schema design matter.
-A model can look expensive simply because the interface pushes it toward wasteful actions.
-The GPT family, for instance, never uses \texttt{rename\_file} in any completed run, even when a rename-based solution is available (Figure~\ref{fig:bench-tool-use}).
-That looks less like a capability gap and more like a mismatch between the model and the schema.
+There is one particular finding from the benchmark which provides some surprise information.
+Latency and costs among contemporary LLMs arise primarily from their method of employing tools.
 
-Across all models, the hardest tasks involve large structural changes (Table~\ref{tab:hardest-tasks}, Figure~\ref{fig:bench-duration-by-job}), not weaknesses tied to any specific model.
-This is a signal that the true complexity of document editing comes from the nature of the work itself.
+Each of the models capable of completing the tasks do so at approximately the same speed (Table~\ref{tab:task-completion}). 
+However, each completes the tasks using distinct methods. 
+DeepSeek frequently reads files that it has no need for; and as a result, it generates a high number of tokens during each run ($62{,}485$, Figure~\ref{fig:bench-duration-vs-tokens}) with a corresponding average time of $148.6$s. 
+This is not a function of DeepSeek’s reasoning. 
+Instead, it is the direct result of DeepSeek’s use of tools. 
 
-Based on these findings, \texttt{google/gemini-3-flash-preview} stands out as the recommended primary model for Spartan Write.
-It is fast and cheap, and aligns well with document editing workflows.
-That said, this recommendation is based on efficiency rather than correctness.
-Completing a task quickly and cheaply does not always mean the result is the best possible.
+Gemini~3~Flash performs restructuring in-place using \texttt{rename\_file} (Figure~\ref{fig:bench-tool-use}). 
+As a result, Gemini~3~Flash produces both the least amount of time ($12.9$s) and the second least amount of money spent ($\$0.0094$ per run, Figure~\ref{fig:bench-cost-per-model}).
+
+Therefore, in addition to the model's raw ability to perform document-editing workloads, whether the model effectively employs good tool-use practices is the superior predictor. 
+Prompt and tool-schema design are thus important factors. 
+An individual model may appear expensive simply because the interface directs it toward wasteful behavior. 
+For example, none of the GPT family ever invokes \texttt{rename\_file} throughout any completed run, although a rename-based solution exists for them (Figure~\ref{fig:bench-tool-use}). 
+Thus, this appears less indicative of a capabilities deficit and more indicative of a lack of alignment between the model and schema.
+
+Across all models, the most difficult tasks represent large structural modifications (Table~\ref{tab:hardest-tasks}, Figure~\ref{fig:bench-duration-by-job}), and not deficiencies specific to any single model.
+This indicates that the true complexity in document editing arises from the nature of the work itself.
+
+Based on these findings, \texttt{google/gemini-3-flash-preview} is recommended as the primary model for Spartan Write.
+The model is both inexpensive and fast, and aligns well with typical document editing workflows. 
+Please note that this recommendation was made based on efficiency rather than accuracy.
+Fast and inexpensive does not necessarily equate to optimal results.
+
 
 \subsection{Contributions}
 
-This work makes two contributions to the LLM-driven document authoring space.
+Spartan Write represents two new contributions to the LLM-driven document authoring space:
 
-First, the report presents Spartan Write, a document authoring system demonstrating how agentic AI reduces cognitive load in \LaTeX-based technical writing.
-Rather than requiring users to master the syntax for editing, the system abstracts file operations and document structure behind a natural language interface.
-This lets users express intent and delegate implementation details to the agent.
+First, Spartan Write demonstrates how an agentic AI can reduce cognitive load in \LaTeX-based technical writing.
+Users don’t have to learn the syntax for editing; instead, users can tell the agent how to perform file operations and organize document structures naturally.
 
-Second, it contributes a benchmark methodology for evaluating LLMs on document editing tasks.
-The suite comprises 17 test cases spanning various use cases for the agent like editing operations, large refactors, error correction, and multimodal tasks.
-It includes metrics for reliability, latency, token usage, cost, and tool invocation patterns.
+Second, it establishes a new benchmark methodology for evaluating LLMs on document editing tasks. The benchmark suite consists of 17 test cases including many common use-cases for the agent (i.e., editing operations, large refactoring operations, error correction operations, and multimodal operation); it includes metrics for reliability, latency, token usage, cost, and tool invocation patterns.
 
-\subsection{Limitations and future work}
 
-The key limitation is that this benchmark measures \textbf{efficiency} rather than output \textbf{correctness}.
-The bench reports task completion rates and other performance metrics, but \textit{completion} here only means the agent completed the task.
-It doesn't guarantee that edits will always match what the user wanted.
-So, the recommendation for Gemini is based solely on efficiency, and it assumes that all models deliver equally correct results.
+\subsection{Limitations and Future Work}
 
-If output quality varies significantly across models, the efficiency-based rankings could be misleading.
-In practice, a model that is a bit slower but more reliable might be a better choice, even if the benchmark suggests otherwise.
-A more complete evaluation of output quality would help fill this gap by specifying specific operations on a case-by-case basis.
-For example, the content generation test could include an assertion that the write tool is never called.
-Other possible approaches include comparing edits to reference versions, structured annotation, or asking an LLM to judge a sample of benchmark runs.
-Adding these quality metrics is the main priority for future work, and would give more useful context for choosing a model.
+While this benchmark evaluates the \textbf{efficiency} of LLMs in performing document editing tasks, it does not evaluate the correctness of the outputs produced by those models. The benchmark reports on the percentage of times that an LLM successfully completes each task in the benchmark suite (i.e., "completed" implies only that the agent performed all required steps). It does not imply anything about whether edits actually reflect what the user intended.
 
-Beyond quality assessment, two secondary research directions remain.
-The first is investigating the GPT family's systematic avoidance of \texttt{rename\_file}.
-The second is validating the benchmark against real-world usage through human-centered studies measuring qualitative differences through user feedback.
+Consequently, while the recommendations for the models are based solely on efficiency (i.e., we assume that all models produce equally correct results), they may be misleading if output quality varies significantly between models. A model that is slightly slower but produces higher-quality results may be preferable to a faster model regardless of how poorly ranked the faster model is by our benchmark. Evaluating output quality using some additional criteria (e.g., using reference versions to compare edits, annotating output with structured metadata, or having an LLM assess a subset of runs) would provide much-needed guidance in making decisions about which model to choose. Adding quality metrics to this benchmark suite would be our highest-priority area for future development and would provide much more context for selecting an appropriate model.
 
-Alongside assessment improvements, several Spartan Write UX feature enhancements merit exploration.
-These include undo support for agent actions, real-time multi-user collaboration, and integration of SyncTeX, which would allow the agent to edit documents more accurately by mapping PDF coordinates back to source locations.
+Two secondary areas of future research exist. The first involves further investigation into why members of the GPT family consistently avoid invoking \texttt{rename\_file}. The second involves verifying this benchmark against real-world application via human-centered studies examining qualitative differences based on user feedback.
+
+Alongside improving assessments, multiple UX feature enhancements for Spartan Write warrant exploration. These include adding undo functionality for agent actions, enabling real-time multi-user collaboration features, and integrating SyncTeX into Spartan Write (to enable agents to edit PDF files more accurately by correlating PDF coordinates with their respective source locations).

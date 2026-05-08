@@ -1,34 +1,23 @@
-\section{Problem statement}
+\section{Problem Statement}
 
-\LaTeX\ offers unrivalled quality and control but demands a steep learning curve.
-Even experienced users spend considerable time on repetitive tasks.
-On the other hand, word processors like Microsoft Word or Google Docs are easy to use, but they fall short in terms of precision and polish needed for academic publishing.
-This inefficiency cascades through the publishing pipeline as well.
-Publishers can spend days in back-and-forth corrections with authors over errors that could have been prevented with proper tooling.
+\LaTeX\ provides unparalleled quality and precision, but is very difficult to learn.
+Both new writers and those who are already familiar with \LaTeX\ may spend large amounts of time doing repetitious work.
+In contrast, many popular writing software tools such as Microsoft Word and Google Docs provide ease of use; however, these tools do not allow enough precision and detail to meet the needs of high-quality academic publishing.
+Thus, the inefficiencies present due to this discrepancy impact the entire publishing process from author to publisher.
+Authors can experience days of back-and-forth communication with publishers regarding minor errors that would have never occurred if there were better tools available.
+Therefore, researchers are forced to choose between spending weeks or months learning how to properly utilize \LaTeX\ so that they can produce high-quality documents with maximum flexibility or settling for lower-quality documents.
 
-Researchers either spend weeks learning \LaTeX\ before they can write effectively, or settle for lower-quality documents with limited flexibility.
-Spartan Write bridges this gap by automating the technical side of formatting through an AI assistant.
-It empowers newcomers and students to create publication-ready documents easily.
+Spartan Write fills the gap between quality, functionality, and ease of use by utilizing Artificial Intelligence to automate the technical aspects of formatting.
+Spartan Write allows both novice users and graduate level students to create documents that are ready for publication with minimal effort.
 
-\subsection{Functional requirements}
-
-\begin{itemize}
-    \item Create \LaTeX\ projects using pre-defined templates.
-    \item Open templates provided by publishers.
-    \item Converse with an AI agent that manages the document's source code.
-    \item Allow direct source code manipulation by the user.
-    \item Support image uploads to the agent to attach to the document, or to parse and generate \LaTeX\ code.
-    \item Evaluate and configure the best LLM and provider for the task using a reproducible test suite.
-    \item Deploy a user guide for grad-level students to quickly onboard and get started.
-\end{itemize}
-
-\subsection{Non-functional requirements}
+The following is a list of functional requirements for Spartan Write.
 
 \begin{itemize}
-    \item Track AI usage and establish limits on usage using user accounts.
-    \item Allow bring-your-own-key (BYOK) users to bypass predefined limits at their expense.
-    \item Establish safeguards to ensure the agent remains within its scope.
-    \item Design the agent to adhere to constraints of ethical use.
-    \item Collect usage statistics for product iteration and insights.
-    \item Split the application architecture to establish separation of concerns.
+\item Allow creation of \LaTeX\ projects based upon pre-existing templates.
+\item Provide access to open templates created by publishers.
+\item Present an interface for interaction with an artificial intelligence (AI) agent which can manage the source code of the document.
+\item Provide means to directly modify the source code of the document by the user.
+\item Support uploading images to the AI agent so that they can be attached to the document or so that the AI agent can convert them into LaTeX code.
+\item Evaluate and determine which LLM is optimal for each job via a reproducible testing suite.
+\item Create a user manual designed for graduate-level students to enable rapid onboarding and productivity.
 \end{itemize}

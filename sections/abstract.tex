@@ -1,12 +1,21 @@
 \begin{abstract}
-LaTeX gives researchers precise control over academic documents, but it can be hard to learn and slow to use.
-Spartan Write is a desktop writing tool that lets users edit LaTeX projects through natural language instead of writing every command by hand.
-Users can draft text, create tables, add figures, and fix formatting issues from a chat interface while still keeping access to the source and compiled preview.
-The system combines a Tauri/React frontend, a local FastAPI sidecar for files and compilation, and a LangGraph agent for document edits.
 
-This report presents the architecture and evaluates Spartan Write with a reproducible benchmark across multiple LLM endpoints.
-The benchmark measures task completion, runtime, token use, cost, and tool behavior.
-Across 119 test cases, the system completed 98.3\% of tasks.
-The results show large differences in cost and speed between providers, mostly due to how each model uses tools.
-Gemini 3 Flash is the best default in this benchmark because it completed every task, had the fastest average runtime at 12.9s, and kept mean cost low at \$0.0094 per run.
+LaTex allows authors to have full control of their scholarly work; however, learning LaTex can be difficult and using LaTex to write an article or dissertation can take time.
+
+Spartan Write is a desktop authoring tool that enables authors to edit LaTex-based documents using a natural-language interface instead of having to manually type all of the commands.
+
+Authors can compose text, construct tables, insert images, as well as repair format-related problems in a chat-type environment. The author will also maintain access to the original source file as well as the compiled view of their document.
+
+The system has a React/Tauri front-end, a fast API server-side component for handling file operations and compilation, and a LangGraph agent for processing updates to the document content.
+
+In addition to presenting the design and implementation of the system's architecture, this report also provides an evaluation of Spartan Write based on a reproducible benchmark executed against several different LLM (Large Language Model) service endpoints.
+
+The benchmark measured several aspects of task execution including completion rate, total time required for task execution, tokens used during execution, costs associated with executing the task, and behaviors exhibited by the tool.
+
+Out of a total of 119 test cases, the system successfully completed 98.3\% of them.
+
+Results indicated significant variability in terms of cost and speed between services. Variability was largely due to differences in usage patterns exhibited by the models being employed by each service.
+
+Gemini 3 Flash is recommended as the default choice for most users in this benchmark. Gemini 3 Flash demonstrated perfect success in completing every single one of the tasks in the test suite. It also demonstrated the shortest average runtime of approximately 12.9 seconds. Additionally, Gemini 3 Flash showed very low mean cost per run (\$0.0094).
+
 \end{abstract}

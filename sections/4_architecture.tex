@@ -33,144 +33,85 @@ These modules are briefly summarised in Table \ref{tab:modules}, and their inter
 \end{figure}
 
 \subsection{Frontend}
-
-Spartan Write's frontend is built with React.js \cite{react} on Tauri, enabling cross-platform development of native desktop applications for macOS, Windows, and Linux from a single TypeScript/React codebase \cite{tauri}.
-
-Accessibility is a core design principle in Spartan Write.
-It includes configurable text zoom and a magnifier.
-It also has support for screen readers.
-The UI is built with industry-standard components designed with accessibility in mind.
+Spartan Write’s frontend is built using React.js \cite{react}, and runs using Tauri, a framework for building cross-platform native applications for Windows, macOS and Linux from a single TypeScript/React codebase \cite{tauri}.
+Accessibility is a important focus on Spartan Write, we have configurable text zoom and magnifier, support for screen readers, and all UI is built with industry standard components that this taken into consideration.
 
 \subsubsection{Development tooling and libraries}
-
 \begin{itemize}
-    \item Tauri provides wrappers for native system APIs while minimising binary size \cite{tauri}.
-    This facilitates deploying to all major OSs using a single codebase.
-    \item Vite powers fast build times and hot module reloading during development \cite{vite}.
-    \item TypeScript provides type safety and is the industry standard \cite{typescript}.
-    \item Styling is handled by Tailwind CSS for responsive, utility-first design \cite{tailwind}.
-    \item User interface components are derived from shadcn, a UI component library built with accessibility and consistent visual design in mind \cite{shadcn}.
-    \item The source code editor implements the Monaco Editor which provides syntax highlights \cite{monaco}.
+\item Tauri for being able use the native system api, without adding too big of a file size to our applications \cite{tauri}, and not having the need to deploy to every OS separately with their own codebase.
+\item Vite for fast build times, and hot module reloading when developing \cite{vite}.
+\item TypeScript for better safe typing, and used to be industry standard by now \cite{typescript}.
+\item Styling is handled by Tailwind CSS for responsive, utility-first design \cite{tailwind}.
+\item User interface components are derived from shadcn, a UI component library built with accessibility and consistent visual design in mind \cite{shadcn}.
+\item The source code editor implements the Monaco Editor which provides syntax highlights \cite{monaco}.
 \end{itemize}
 
 \subsubsection{Authentication}
-
 The frontend integrates WorkOS AuthKit to provide secure, standards-based authentication \cite{workos}.
 The authentication framework follows best practices for security and developer and user convenience.
 Once authenticated, the frontend manages user credentials and conveys usage data.
 Only authenticated users are permitted to invoke the agent.
 
 \subsubsection{Project management}
-
-The frontend provides a dashboard to view and open recent projects.
-There is an onboarding flow for new users and a settings page that displays user profile information and usage analytics.
+The frontend provides a dashboard to view and open recent projects. There is an onboarding flow for new users and a settings page that shows user profile info and usage stats.
 
 \subsubsection{Editor}
-
-The editor features a resizable layout that supports two modes.
-In \emph{source view}, users see a \LaTeX\ code editor.
-In \emph{preview view}, which is the default, users see a live PDF render of their document.
-The chat interface is available in both views.
-This design allows users to see the changes made by the agent as they occur.
+The editor has a resizable layout, containing two modes of operation.
+The first is source view, a simple \LaTeX\ code editor.
+The second, and default mode, is preview view, showing a live PDF render of the document.
+The chat interface is always available in both, so the user can see the work that the agent is doing as it happens.
 
 \subsection{Sidecar}
-
-The sidecar is a local FastAPI server \cite{fastapi} bundled with the desktop application that serves as the bridge between the frontend UI and the project filesystem.
-Unlike most "servers", this program runs on the users' devices alongside the client application \cite{tauri_sidecar}.
-Its primary responsibility is to handle all local filesystem operations.
-This keeps the cloud server stateless and focused purely on AI agent logic.
-
-The sidecar also manages project-specific and user-level configuration, including user information, API credentials in case the user is able to provide their own API key, and authentication tokens.
-These settings are persisted locally for quick access and offline operation.
-The sidecar encapsulates all local, filesystem-bound operations, compilation, and configuration management.
+The sidecar is a FastAPI server \cite{fastapi} running locally, bundled with the desktop app.
+As with other local components, its role is to link the frontend UI with the underlying project filesystem.
+Unlike all the other “servers”, this program runs on the users’ own machines alongside the actual client application \cite{tauri_sidecar}.
+Its main responsibility is to perform all filesystem I/O, so that the cloud server can stay stateless, implementing only AI agent logic.
+Among other things, the sidecar is responsible for storing project-specific, and user-level configuration: user info, API credentials (in case the user is able to provide their own API key), and authentications tokens. The sidecar persists these settings, for fast access and offline operation. It is responsible for all filesystem-bound operations, as well as compilation and configuration for the user.
 
 \subsubsection{Template discovery}
-
-The sidecar provides an endpoint that lists available project templates, enabling the frontend to present users with choices when creating new projects.
-This allows for easy extensibility: new templates can be added to the sidecar without requiring frontend changes.
+This sidecar offers an endpoint to query all of the available project templates, which the frontend can display to the user when they’re creating a new project. This allows, for example, easy extensibility: a new template can be added there, without needing to change the frontend. 
 
 \subsubsection{Compilation and PDF rendering}
-
-A critical function of the sidecar is local \LaTeX\ compilation.
-For this purpose, it uses Tectonic \cite{tectonic}, a lightweight \LaTeX\ compiler to compile the project.
-The sidecar abstracts this program behind a convenient API that returns the compilation status and error messages to the frontend.
-The compiled PDF is served back to the frontend for live preview.
-The Tectonic binary is bundled alongside the sidecar itself as part of the frontend application \cite{tauri_sidecar}.
-This local compilation strategy facilitates fast iteration cycles without reliance on cloud-based typesetting services.
-
+An important capability for the sidecar is local \LaTeX\ compilation. For this it invokes Tectonic \cite{tectonic}, a lightweight \LaTeX\ compiler to compile the project. This program is wrapped behind a simple API that the sidecar’s frontend can call, returning the compilation status and any error messages as strings. The PDF generated is then served back to the frontend, allowing for a live preview.
+I think that the main Tectonic binary is bundled alongside the sidecar itself as part of the frontend application, though maybe it downloads it, not sure. Regardless, upon local compilation in this way, they allow for fast iteration cycles without the need for external typesetting services.
 
 \subsubsection{Agentic AI chat integration}
-
-The frontend integrates CopilotKit which facilitates a fully featured agentic chat interface \cite{copilotkit}.
-The sidecar is equipped with tools for the agent to perform comprehensive document manipulation: reading, writing, deleting, and renaming files; listing project contents; compiling \LaTeX\; and forwarding errors, if any; and managing attached images.
-All file operations include path validation to prevent traversal attacks and ensure modifications remain within the project directory.
-This toolset allows the agent to make changes to the project files and update the document to satisfy the user's request.
+Integrating CopilotKit in the frontend allows for an agentic chat UI to come alive there \cite{copilotkit}. For these the sidecar has the tools for the agent to fairly thoroughly manipulate documents: reading, writing, deleting and renaming files, listing the project contents, compiling \LaTeX\ and forwarding the errors if there are any, and images attached therein. The file operations all do some path validation to ensure no traversal happens to hack out of the project folder and ensure the changes made are contained to the directory of files pertaining to the project.
+With this toolset, the agent can change files and update the document accordingly if it needs to in order to fulfill the user’s request.
 
 \subsubsection{Image processing}
-
-There are two ways that the agent may choose to handle images.
-Based on the user's request, the agent may decide that the image must be included in the document or processed to answer a question or make a decision.
-In the first case, the agent need not process the image at all, and would simply need a tool to copy it into the project directory.
-Then, it could generate code to render the image within the document.
-In the second case, the image would not need to be copied or stored.
-Instead, it would be processed by the agent.
-The sidecar provides tools for both of these purposes.
+There are two ways that the agent may need to handle images. Firstly, based on how the user requests this, it can decide that the image must be included in the document. For example, it may be an image the user needs to index. Alternatively, it may get direct user query on it. In that case it will process it before answering a question or perhaps making a decision. In the former scenario, the agent need not process the image, and would just need a way to copy it into the project directory. Then it could emit code to render the image in the document. In the latter, it would not be copied / stored, but processed by the agent. The sidecar supplies tools for both purposes.
 
 \subsection{Agent}
-
-The Agent is the cloud-based AI backbone of Spartan Write.
-It is responsible for interpreting user requests and orchestrating intelligent document edits.
-It is built on Python FastAPI \cite{fastapi}.
-The agent's behaviour is defined using LangGraph, a framework for building stateful, multi-step AI workflows that maintain conversation context and carry out complex editing logic deterministically \cite{langgraph}.
-It validates all user actions through WorkOS authentication \cite{workos} and streams the generated response to the frontend.
-Rather than being locked to a single provider, the agent integrates with OpenRouter.
-OpenRouter is a configurable LLM aggregation layer that allows selection from multiple language models and providers \cite{openrouter}.
-LLM usage is reported to PostHog \cite{posthog}.
+The Agent is the cloud AI behind Spartan Write. It’s responsible for interpreting the user actions, and orchestrating intelligent edits of the document. It is built on Python FastAPI \cite{fastapi}.
+Behaviour of the agent is defined in LangGraph, a framework to build stateful, multi-step AI workflows that can maintain context of the conversation and carry out complex editing logic in a deterministic way \cite{langgraph}.
+It validates all user actions with WorkOS authentication \cite{workos} and streams the response back to the frontend. Instead of being locked into one provider the agent calls into OpenRouter.
+OpenRouter is a free configurable “LLM aggregation layer to choose from many language models and providers” \cite{openrouter}.
+We report our usage of LLMs to PostHog \cite{posthog}.
 
 \subsubsection{Cloud deployment}
-
-The agent is containerised and deployed to a virtual machine on the cloud.
-Its stateless architecture ensures that no persistent state is maintained between requests.
-It also enables independent scaling across multiple instances.
+Our agent is containerised and deployed to a virtual machine on the cloud. Stateless means we don’t hold persistent state and it means we can out scale in duplicate that agent on multiple servers. 
 
 \subsubsection{Analytics \& privacy}
-
-Every agent interaction is tracked and reported to PostHog for usage analytics, billing, and performance insights \cite{posthog}.
-Conversation history is maintained within a single session to support multi-turn coherence. To protect privacy, chats are not persisted across separate chats.
+Every interaction with the agent is logged and sent to PostHog \cite{posthog} for usage analytics, billing, and performance insight. Some context of the conversation is saved for multi-turn consistency, but to protect your privacy we do not persist chats across chats.
 
 \subsection{Benchmark}
-
-The benchmark systematically assesses the agent's performance in various document editing scenarios.
-It executes the test dataset against the agent API and applies multi-faceted scoring metrics.
-This provides data-backed insights into agent capabilities, identifies performance bottlenecks, and enables comparisons across different models and configurations.
-The goal is to select the most feasible language model and to evaluate the changes in performance as the models update.
+Our benchmark tests the agent's proficiency at document editing. We run our test dataset against the agent API, and then run a variety of scoring metrics against it. Lending us understanding of out agent's strengths and weaknesses and helping us ultimately choose the right language model - and how performance moves as we retrain and release new ones.
 
 \subsubsection{Testing workflow}
-
-The benchmark uses a curated set of document states paired with pre-defined user prompts. 
-Each dataset item represents a specific editing task.
-This evaluates the agent's capabilities across a range of real-world scenarios.
-
-The benchmark directly interacts with the agent server via its REST API.
-It sends test prompts, captures agent responses and tool invocations, and stores the results in a database.
+Our benchmark is for a simple list of document states, around a set of user prompts. Each is a core editing task - and so we can assess the agent's proficiency across realistic use cases.
+How do we run the test?
+We run our benchmark against the agent server directly, via its REST API. When benchmarking we send it a test prompt and log the response and what tools it called, and log that response in a database.
 
 \subsubsection{Reproducibility}
-
-By maintaining the test dataset and deterministic scoring logic, the benchmark enables reproducible testing across configurations.
-This is essential for making an informed decision.
-The standardised evaluation approach also supports tracking improvements or regressions over time as the agent/model evolves.
+If we have the test dataset and the deterministic logic we run against it to score how we benchmarked, we can just run it again against a new version of the model. It is essential we be reproducible - any bias we will avert, and the informed decision about which language model to select.
+Equally, the standardised approach allows us to track improvements - or regressions - as we alter that agent/base model.
 
 \subsubsection{Visualisation}
-
-Results are visualised using Plotly \cite{plotly} on a Streamlit-based web dashboard \cite{streamlit}.
-The dashboard presents evaluation results using various aggregations that are discussed in the coming sections.
-This interactive interface supports the identification of performance shifts and failure modes and enables comparative analysis across different models.
+"We visualise our results from the benchmarker with Plotly \cite{plotly} on a Streamlit based public web dashboard \cite{streamlit}."
+The dashboard abstracts a presentation to show evaluation results with various aggregations. Later inside of this exhibition of Playgound notes we discuss results aggregations. This interface helps to spot both mixture of performance change, and spotting what pattern or fault models have.
 
 \subsection{User guide}
-
-The user guide is built a lightweight documentation framework called MkDocs.
-It generates a clean searchable website from Markdown files.
-
-The guide is hosts user-facing documentation across all platforms, with built-in search functionality, responsive design, and clear navigation.
-It covers the complete user journey, from platform-specific installation instructions for macOS, Windows, and Linux, to quick-start tutorials for first-time users, and to comprehensive reference material on project management, API configuration, tips for efficient agent usage, best practices, and troubleshooting.
-This breadth of content ensures users can find answers at every stage of their experience with Spartan Write.
+We wrote the UserGuide atop a lightweight documentation framework called MkDocs. It lends to generation a clean searchable website from Markdown files.
+The User guide is the home of your user facing docs, with included search, mobile-responsive design, and nice clear navigation.
+The user guide takes you all the way from the platform specific installation instructions for macOS, Windows and Linux, honed down until you are to quick-start tutorials for "your first text to write with Spartan Write" onward and getting to follow ons and comprehensive reference material to manage projects, configure the API, tips to get the most just and best efficient use out of your agent and best practices and good examples for troubleshooting.
