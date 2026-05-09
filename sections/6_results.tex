@@ -1,121 +1,171 @@
 \section{Results}
 
 \subsection{Evaluation Questions Answered Using Benchmark Test Suite Results}
-To assess whether the selected LLMs have sufficient capability to perform well on the tasks presented by the benchmark test suite, we ran each LLM through the entire test suite. We then assessed each model's ability to complete the tasks successfully using a combination of both automated and manual testing.
-We found that our models can effectively execute the test suite if they are capable of multimodality. That being said, there is evidence to suggest that one model did not fully complete the test suite, specifically in regards to images. This is because the specific model (\texttt{deepseek-v3.2}), is currently unable to process images. Therefore, it failed on those tasks. As such, while the selected models should be able to successfully complete the tasks when appropriately enabled for multimodal processing, it will likely fail on certain tasks where images need to be processed. This directly answers question~(1): yes, provided that the model is properly enabled for multimodal processing, it will be able to complete all of the tasks presented by the test suite.
+To assess whether the selected LLMs have sufficient capability to perform well on the tasks presented by the benchmark test suite, we ran each LLM through the entire test suite.
+We then assessed each model's ability to complete the tasks successfully using a combination of both automated and manual testing.
+We found that our models can effectively execute the test suite if they are capable of multimodality.
+That being said, there is evidence to suggest that one model did not fully complete the test suite, specifically in regards to images.
+This is because the specific model (\texttt{deepseek-v3.2}), is currently unable to process images.
+Therefore, it failed on those tasks.
+As such, while the selected models should be able to successfully complete the tasks when appropriately enabled for multimodal processing, it will likely fail on certain tasks where images need to be processed.
+This directly answers question~(1): yes, provided that the model is properly enabled for multimodal processing, it will be able to complete all of the tasks presented by the test suite.
+
+\begin{table}[htb]
+    \centering
+    \caption{Task completion by model}
+    \label{tab:task-completion}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Counter} & \textbf{Value} \\
+        \hline
+        Jobs (model $\times$ task pairs) & 119 \\
+        Completed (latest run succeeded) & 117 \\
+        Failed (latest run errored) & 2 \\
+        Pending (not yet executed) & 0 \\
+        Recorded runs (individual executions) & 355 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Figure~\ref{fig:bench-run-status} summarizes benchmark execution outcomes by model.
 
 \begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/bench-run-status.png}
-    \caption{Benchmark execution outcomes by model}
-    \label{fig:bench-run-status}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/bench-run-status.png}
+    \caption{Benchmark execution outcomes by model}
+    \label{fig:bench-run-status}
 \end{figure}
 
 \subsection{Task Difficulty}
-In order to determine which tasks within the test suite are inherently difficult for the models, we plotted the average duration for each task, along with individual run durations. Each task's inherent variability is represented by the range of individual run durations. From this analysis, it is evident that three tasks have a significantly larger range of values than the rest of the tasks: Structural Edits ($\approx 2.5\times$), Large Documents ($\approx 2.4\times$), and Repair Tasks ($\approx 2.4\times$). This suggests that these three types of tasks are likely to be particularly difficult for the models. Additionally, the fact that no task had a range greater than $2.4\times$ implies that most tasks have relatively consistent performance. These findings confirm that task difficulty varies widely among the different types of tasks included in the test suite. Furthermore, these findings provide a solid foundation upon which to build subsequent studies related to developing methods to help improve the performance of models with respect to task difficulty. In conclusion, the results demonstrate that a wide variety of task difficulties exist within the test suite, ranging from easily executable tasks to extremely challenging ones. The majority of the tasks appear to be moderately difficult. However, the most significant challenge lies in identifying which tasks fall into which category. Based upon this analysis alone, it is impossible to definitively classify any task as either "easy" or "hard." As such, further research is needed to develop methodologies for evaluating model performance based upon task difficulty. This answers question~(2): yes, several of the tasks included in the test suite are inherently difficult for the models.
+In order to determine which tasks within the test suite are inherently difficult for the models, we plotted the average duration for each task, along with individual run durations (Figure~\ref{fig:bench-duration-by-job}).
+Each task's inherent variability is represented by the range of individual run durations.
+From this analysis, it is evident that three tasks have a significantly larger range of values than the rest of the tasks: Structural Edits ($\approx 2.5\times$), Large Documents ($\approx 2.4\times$), and Repair Tasks ($\approx 2.4\times$).
+This suggests that these three types of tasks are likely to be particularly difficult for the models.
+Additionally, the fact that no task had a range greater than $2.4\times$ implies that most tasks have relatively consistent performance.
+These findings confirm that task difficulty varies widely among the different types of tasks included in the test suite.
+Furthermore, these findings provide a solid foundation upon which to build subsequent studies related to developing methods to help improve the performance of models with respect to task difficulty.
+In conclusion, the results demonstrate that a wide variety of task difficulties exist within the test suite, ranging from easily executable tasks to extremely challenging ones.
+The majority of the tasks appear to be moderately difficult.
+However, the most significant challenge lies in identifying which tasks fall into which category.
+Based upon this analysis alone, it is impossible to definitively classify any task as either "easy" or "hard."
+As such, further research is needed to develop methodologies for evaluating model performance based upon task difficulty.
+This answers question~(2): yes, several of the tasks included in the test suite are inherently difficult for the models.
 
 \begin{figure}[htb]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/bench-duration-by-job.png}
-    \caption{Run duration by benchmark task}
-    \label{fig:bench-duration-by-job}
+    \centering
+    \includegraphics[width=1\linewidth]{figures/bench-duration-by-job.png}
+    \caption{Run duration by benchmark task}
+    \label{fig:bench-duration-by-job}
 \end{figure}
 
 \begin{table}[htb]
-    \centering
-    \caption{Slowest and fastest benchmark tasks}
-    \label{tab:hardest-tasks}
-    \begin{tabular}{lr}
-        \hline
-        \textbf{Task} & \textbf{Mean duration (s)} \\
-        \hline
-        004-large-unarranged-doc & 134.7 \\
-        014-large-broken-explicit-fix & 118.9 \\
-        006-large-new-section & 88.7 \\
-        009-large-remove-fuzzy & 54.1 \\
-        \hline
-        007-large-remove-contents & 21.3 \\
-        000-empty-section & 17.4 \\
-        003-remove-contents-from-section & 10.6 \\
-        016-large-parse-image\textsuperscript{*} & 2.9 \\
-        \hline
-        \multicolumn{2}{l}{\footnotesize\textsuperscript{*}~Value depressed by DeepSeek aborting the task. See Figure~\ref{fig:bench-run-status}.}
-    \end{tabular}
+    \centering
+    \caption{Slowest and fastest benchmark tasks}
+    \label{tab:hardest-tasks}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Task} & \textbf{Mean duration (s)} \\
+        \hline
+        004-large-unarranged-doc & 134.7 \\
+        014-large-broken-explicit-fix & 118.9 \\
+        006-large-new-section & 88.7 \\
+        009-large-remove-fuzzy & 54.1 \\
+        \hline
+        007-large-remove-contents & 21.3 \\
+        000-empty-section & 17.4 \\
+        003-remove-contents-from-section & 10.6 \\
+        016-large-parse-image\textsuperscript{*} & 2.9 \\
+        \hline
+        \multicolumn{2}{l}{\footnotesize\textsuperscript{*}~Value depressed by DeepSeek aborting the task. See Figure~\ref{fig:bench-run-status}.}
+    \end{tabular}
 \end{table}
 
 \subsection{Token Consumption}
-We examined token consumption for each model in terms of average prompt tokens and average completion tokens per run. We report these metrics in Figure~\ref{fig:bench-tokens-per-model} and Table~\ref{tab:token-averages}. Of note, \texttt{deepseek-v3.2} consumed approximately $64.8$K tokens per run. This represents roughly $3\times$ the token volume of \texttt{gpt-5.4} for the same set of tasks. This finding supports our hypothesis that excessive token usage represents redundant tool usage or inappropriate contextual information retention by DeepSeek. Specifically, our results show that DeepSeek uses an average of $64.8$K tokens per run; however, \texttt{gpt-5.4} uses only approximately $19$K tokens per run. Thus, DeepSeek consumes more than triple the amount of token volume as \texttt{gpt-5.4} for completing each run of the benchmark suite.
+We examined token consumption for each model in terms of average prompt tokens and average completion tokens per run.
+We report these metrics in Figure~\ref{fig:bench-tokens-per-model} and Table~\ref{tab:token-averages}.
+Of note, \texttt{deepseek-v3.2} consumed approximately $64.8$K tokens per run.
+This represents roughly $3\times$ the token volume of \texttt{gpt-5.4} for the same set of tasks.
+This finding supports our hypothesis that excessive token usage represents redundant tool usage or inappropriate contextual information retention by DeepSeek.
+Specifically, our results show that DeepSeek uses an average of $64.8$K tokens per run; however, \texttt{gpt-5.4} uses only approximately $19$K tokens per run.
+Thus, DeepSeek consumes more than triple the amount of token volume as \texttt{gpt-5.4} for completing each run of the benchmark suite.
 As such, we believe that DeepSeek's excessive use of tokens contributes to its longer processing times compared to \texttt{gpt-5.4} and possibly other models tested here.
 
 \begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/bench-tokens-per-model.png}
-    \caption{Token usage by model and token type}
-    \label{fig:bench-tokens-per-model}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/bench-tokens-per-model.png}
+    \caption{Token usage by model and token type}
+    \label{fig:bench-tokens-per-model}
 \end{figure}
 
 \begin{table}[htb]
-    \centering
-    \caption{Average tokens per completed run}
-    \label{tab:token-averages}
-    \begin{tabular}{lrr}
-        \hline
-        \textbf{Model} & \textbf{Input} & \textbf{Output} \\
-        \hline
-        \texttt{deepseek-v3.2}        & 62{,}485 & 2{,}363 \\
-        \texttt{claude-sonnet-4.6}    & 42{,}854 & 2{,}084 \\
-        \texttt{claude-opus-4.6}      & 38{,}503 & 2{,}327 \\
-        \texttt{gpt-5.4-mini}         & 25{,}516 & 1{,}850 \\
-        \texttt{grok-4-fast}          & 15{,}924 & 3{,}656 \\
-        \texttt{gemini-3-flash}       & 18{,}050 & 1{,}080 \\
-        \texttt{gpt-5.4}              & 17{,}511 & 1{,}507 \\
-        \hline
-    \end{tabular}
+    \centering
+    \caption{Average tokens per completed run}
+    \label{tab:token-averages}
+    \begin{tabular}{lrr}
+        \hline
+        \textbf{Model} & \textbf{Input} & \textbf{Output} \\
+        \hline
+        \texttt{deepseek-v3.2}        & 62{,}485 & 2{,}363 \\
+        \texttt{claude-sonnet-4.6}    & 42{,}854 & 2{,}084 \\
+        \texttt{claude-opus-4.6}      & 38{,}503 & 2{,}327 \\
+        \texttt{gpt-5.4-mini}         & 25{,}516 & 1{,}850 \\
+        \texttt{grok-4-fast}          & 15{,}924 & 3{,}656 \\
+        \texttt{gemini-3-flash}       & 18{,}050 & 1{,}080 \\
+        \texttt{gpt-5.4}              & 17{,}511 & 1{,}507 \\
+        \hline
+    \end{tabular}
 \end{table}
 
 \subsection{Predictability Of Processing Time With Respect To Volume Of Tokens Consumed}
-We also analyzed how well predictive the processing time is for each model based on the volume of tokens consumed. Our results are shown in Figure~\ref{fig:bench-duration-vs-tokens}. For six of the seven models tested here, we observed a fairly linear relationship between processing time and volume of tokens consumed (i.e., for a constant volume of tokens consumed, processing time increased approximately linearly). However, we saw a marked deviation from linearity for DeepSeek, which clearly exhibited poor scalability with respect to token volume.
+We also analyzed how well predictive the processing time is for each model based on the volume of tokens consumed.
+Our results are shown in Figure~\ref{fig:bench-duration-vs-tokens}.
+For six of the seven models tested here, we observed a fairly linear relationship between processing time and volume of tokens consumed (i.e., for a constant volume of tokens consumed, processing time increased approximately linearly).
+However, we saw a marked deviation from linearity for DeepSeek, which clearly exhibited poor scalability with respect to token volume.
 Our results demonstrated that while processing time generally increases as a function of increasing token volume for six of the seven models tested here, there exists one model (\texttt{deepseek-v3.2}) whose processing time scales poorly with increasing volumes of tokens consumed.
 
 \begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/bench-duration-vs-tokens.png}
-    \caption{Run duration compared with total token count}
-    \label{fig:bench-duration-vs-tokens}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/bench-duration-vs-tokens.png}
+    \caption{Run duration compared with total token count}
+    \label{fig:bench-duration-vs-tokens}
 \end{figure}
 
 \subsection{Monetary Cost Per Completed Run}
-We calculated the average cost per completed run for each model and report these values in Figure~\ref{fig:bench-cost-per-model} and Table~\ref{tab:cost-per-run}. From these figures and table, it is clear that \texttt{claude-opus-4.6} is substantially more costly per run than \texttt{grok-4-fast}. Specifically, we see that Claude Opus is approximately $78\times$ more expensive per run than Grok Fast. It is also evident that the lower-quality models are less expensive than the high-quality models tested here; however, \texttt{gpt-5.4} exhibits both high quality and moderate cost relative to Claude Opus and Grok Fast.
+We calculated the average cost per completed run for each model and report these values in Figure~\ref{fig:bench-cost-per-model} and Table~\ref{tab:cost-per-run}.
+From these figures and table, it is clear that \texttt{claude-opus-4.6} is substantially more costly per run than \texttt{grok-4-fast}.
+Specifically, we see that Claude Opus is approximately $78\times$ more expensive per run than Grok Fast.
+It is also evident that the lower-quality models are less expensive than the high-quality models tested here; however, \texttt{gpt-5.4} exhibits both high quality and moderate cost relative to Claude Opus and Grok Fast.
 These results clearly illustrate that cost is highly correlated with quality in this space.
 
 \begin{figure}[htb]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/bench-cost-per-model.png}
-    \caption{Average benchmark cost by model}
-    \label{fig:bench-cost-per-model}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/bench-cost-per-model.png}
+    \caption{Average benchmark cost by model}
+    \label{fig:bench-cost-per-model}
 \end{figure}
 
 \begin{table}[htb]
-    \centering
-    \caption{Mean cost per completed run}
-    \label{tab:cost-per-run}
-    \begin{tabular}{lrr}
-        \hline
-        \textbf{Model} & \textbf{Mean cost (\$/run)} & \textbf{Relative to highest} \\
-        \hline
-        \texttt{claude-opus-4.6}      & 0.2482 & $1.00\times$  \\
-        \texttt{claude-sonnet-4.6}    & 0.1582 & $0.64\times$  \\
-        \texttt{gpt-5.4}              & 0.0349 & $0.14\times$  \\
-        \texttt{gpt-5.4-mini}         & 0.0130 & $0.05\times$  \\
-        \texttt{deepseek-v3.2}        & 0.0108 & $0.04\times$  \\
-        \texttt{gemini-3-flash}       & 0.0094 & $0.04\times$  \\
-        \texttt{grok-4-fast}          & 0.0032 & $0.013\times$ \\
-        \hline
-    \end{tabular}
+    \centering
+    \caption{Mean cost per completed run}
+    \label{tab:cost-per-run}
+    \begin{tabular}{lrr}
+        \hline
+        \textbf{Model} & \textbf{Mean cost (\$/run)} & \textbf{Relative to highest} \\
+        \hline
+        \texttt{claude-opus-4.6}      & 0.2482 & $1.00\times$  \\
+        \texttt{claude-sonnet-4.6}    & 0.1582 & $0.64\times$  \\
+        \texttt{gpt-5.4}              & 0.0349 & $0.14\times$  \\
+        \texttt{gpt-5.4-mini}         & 0.0130 & $0.05\times$  \\
+        \texttt{deepseek-v3.2}        & 0.0108 & $0.04\times$  \\
+        \texttt{gemini-3-flash}       & 0.0094 & $0.04\times$  \\
+        \texttt{grok-4-fast}          & 0.0032 & $0.013\times$ \\
+        \hline
+    \end{tabular}
 \end{table}
 
 \subsection{Comparison Of Durations Across Different Tasks For Different Models}
-We projected the duration values onto a bar chart format to compare durations across different tasks for different models (see Figure~\ref{fig:bench-duration-modelwise}). The bar chart highlights variations across tasks for each model.
+We projected the duration values onto a bar chart format to compare durations across different tasks for different models (see Figure~\ref{fig:bench-duration-modelwise}).
+The bar chart highlights variations across tasks for each model.
 From examining Figure~\ref{fig:bench-duration-modelwise}, we identified three distinct behavioral patterns among the different models tested here:
 \begin{itemize}
     \item \texttt{gemini-3-flash} consistently outperformed all other models across almost every task.
@@ -129,15 +179,24 @@ Therefore, while smaller models offer potential benefits in terms of speed and c
 This answers question~6: Yes, smaller models tend to be faster and less expensive than larger models; however, these advantages are typically marginal at best.
 
 \begin{figure}[htb]
-    \centering
-    \includegraphics[width=\linewidth]{figures/bench-duration-modelwise.png}
-    \caption{Task duration broken down by model}
-    \label{fig:bench-duration-modelwise}
+    \centering
+    \includegraphics[width=\linewidth]{figures/bench-duration-modelwise.png}
+    \caption{Task duration broken down by model}
+    \label{fig:bench-duration-modelwise}
 \end{figure}
 
 \subsection{Behavioral Patterns Among Models In Terms Of Tool Invocation Frequency}
-Finally, we examined frequency of invocation of tools by each model in terms of their behavior as agents executing commands within conversations (see Figure~\ref{fig:bench-tool-use}). High frequencies of invocation may reflect either exhaustive exploration or inefficient loops.
+Finally, we examined frequency of invocation of tools by each model in terms of their behavior as agents executing commands within conversations (see Figure~\ref{fig:bench-tool-use}).
+High frequencies of invocation may reflect either exhaustive exploration or inefficient loops.
 The resulting heat map provides additional insight into tool usage behaviors and thus provides additional context to aid in interpreting scores.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/bench-tool-use.png}
+    \caption{Tool calls by model and tool type}
+    \label{fig:bench-tool-use}
+\end{figure}
+
 We noted three unique behavioral characteristics among models:
 \begin{itemize}
     \item \texttt{deepseek-v3.2} issued a significantly larger number of \texttt{read\_file} invocations than all other models.
@@ -154,21 +213,35 @@ This answers question~7: Yes, a substantial portion of differences in cost and d
 The results collectively show that the results can be explained as follows:
 
 \begin{enumerate}
-    \item All models used here have high reliability with regard to the ability to complete tasks. When errors did occur they were each due to the absence of multi-modal support in one of the models used.
+    \item All models used here have high reliability with regard to the ability to complete tasks.
+    When errors did occur they were each due to the absence of multi-modal support in one of the models used.
 
-    \item Structural Edit Size of the Document is the single largest contributor to Task Difficulty independent of the Model. Each of the Models used can accomplish all Tasks that they are capable of accomplishing.
+    \item Structural Edit Size of the Document is the single largest contributor to Task Difficulty independent of the Model.
+    Each of the Models used can accomplish all Tasks that they are capable of accomplishing.
 
-    \item There is nearly two orders of magnitude variation in Cost from Provider to Provider, for identical behavior. The lowest cost provider is Grok~4~Fast and Gemini~3~Flash, and the highest cost provider is the Claude Family.
+    \item There is nearly two orders of magnitude variation in Cost from Provider to Provider, for identical behavior.
+    The lowest cost provider is Grok~4~Fast and Gemini~3~Flash, and the highest cost provider is the Claude Family.
 
-    \item Tool Usage Patterns account for nearly all of the variability seen in Cost and Latency. For example, DeepSeek uses $5.08$ \texttt{read\_file} invocations per run which is the highest invocation rate of any model; it also produces the largest number of tokens to process ($62{,}485$), and the longest processing time ($148.6$s). These statistics arise solely from DeepSeek's behavior of reinserting File Contents into the Prompt on every subsequent Turn when a redundant Read occurs. Similarly, Gemini~3~Flash shows the least amount of \texttt{read\_file} invocations ($1.65$) but demonstrates the greatest number of \texttt{rename\_file} invocations ($3.83$).
+    \item Tool Usage Patterns account for nearly all of the variability seen in Cost and Latency.
+    For example, DeepSeek uses $5.08$ \texttt{read\_file} invocations per run which is the highest invocation rate of any model; it also produces the largest number of tokens to process ($62{,}485$), and the longest processing time ($148.6$s).
+    These statistics arise solely from DeepSeek's behavior of reinserting File Contents into the Prompt on every subsequent Turn when a redundant Read occurs.
+    Similarly, Gemini~3~Flash shows the least amount of \texttt{read\_file} invocations ($1.65$) but demonstrates the greatest number of \texttt{rename\_file} invocations ($3.83$).
 
-    \item Significant tool-level interventions appear to be a potential area of study for Future Work. While no intervention appears necessary for the other three families of Models (\textit{i.e.,} Fast/GPT-4-Fast, Fast/CLAUDE-1.5-Large-MultiChoice-Clean-Prompt, Fast/DALL-E-GPT-7B-Optimal), \texttt{gpt-5.4} never invokes \texttt{rename\_file}, even though there were clearly tasks whose solutions would require renaming some files, suggesting either an incompatibility between GPT Models and their associated Tooling Schemas or a problem with how those GPT Models process those tasks.
+    \item Significant tool-level interventions appear to be a potential area of study for Future Work.
+    While no intervention appears necessary for the other three families of Models (\textit{i.e.,} Fast/GPT-4-Fast, Fast/CLAUDE-1.5-Large-MultiChoice-Clean-Prompt, Fast/DALL-E-GPT-7B-Optimal), \texttt{gpt-5.4} never invokes \texttt{rename\_file}, even though there were clearly tasks whose solutions would require renaming some files, suggesting either an incompatibility between GPT Models and their associated Tooling Schemas or a problem with how those GPT Models process those tasks.
 \end{enumerate}
 
-As such, the Default Model chosen for use in this Agent should be \texttt{google/gemini-3-flash-preview}. It has the shortest Mean Chat Duration ($12.9$s) and Second Lowest Mean Cost ($\$0.0094$ per run). Additionally, it uses tools appropriately relative to the Large-Scale Editing tasks contained within the Benchmark.
+As such, the Default Model chosen for use in this Agent should be \texttt{google/gemini-3-flash-preview}.
+It has the shortest Mean Chat Duration ($12.9$s) and Second Lowest Mean Cost ($\$0.0094$ per run).
+Additionally, it uses tools appropriately relative to the Large-Scale Editing tasks contained within the Benchmark.
 
-A credible Secondary Choice where Cost is the primary Concern is \texttt{x-ai/grok-4-fast}. At $\$0.0032$, it is approximately $3\times$ cheaper than the Primary Recommended Choice. However, its Mean Duration ($16.4$s) is just slightly longer, making it less suited to Interactive Chat experiences.
+A credible Secondary Choice where Cost is the primary Concern is \texttt{x-ai/grok-4-fast}.
+At $\$0.0032$, it is approximately $3\times$ cheaper than the Primary Recommended Choice.
+However, its Mean Duration ($16.4$s) is just slightly longer, making it less suited to Interactive Chat experiences.
 
-The Anthropic Models will likely be between One and Two Orders of Magnitude More Expensive per Run than these Alternatives. Therefore, they do not have a strong case for being selected over them based on Efficiency Metrics alone. They could potentially become Justifiable based upon Quality Metrics.
+The Anthropic Models will likely be between One and Two Orders of Magnitude More Expensive per Run than these Alternatives.
+Therefore, they do not have a strong case for being selected over them based on Efficiency Metrics alone.
+They could potentially become Justifiable based upon Quality Metrics.
 
-DeepSeek~v3.2 is not recommended under any configuration. It lacks MultiModal Support, and its repeated reading behavior is inefficient.
+DeepSeek~v3.2 is not recommended under any configuration.
+It lacks MultiModal Support, and its repeated reading behavior is inefficient.
