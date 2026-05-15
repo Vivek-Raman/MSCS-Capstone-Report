@@ -47,6 +47,19 @@ The benchmark suite consists of 17 test cases including many common use-cases fo
 
 \subsection{Limitations and Future Work}
 
+\subsubsection{Academic integrity}
+
+The primary factors that work to uphold academic integrity are implemented using prompt engineering.
+Although the outcomes are validated, the implementation’s non-deterministic nature leaves room for improvement.
+
+One potential layer that can be added is a more intelligent and careful \texttt{write\_file\_tool} design.
+The tool currently requires that the entire file's contents be provided.
+If this is replaced by a content patching framework, we gain the ability to extract and isolate newly added / updated content.
+This opens an opportunity for a more deterministic validation, where we can compare the similarity of the input prompt against the new content passed to the tool.
+If the similarity is below a certain threshold, we can infer that the agent has generated content that isn't written by the user, and block the operation.
+
+\subsubsection{Benchmark}
+
 While this benchmark evaluates the \textbf{efficiency} of LLMs in performing document editing tasks, it does not evaluate the correctness of the outputs produced by those models.
 The benchmark reports on the percentage of times that an LLM successfully completes each task in the benchmark suite (i.e., "completed" implies only that the agent performed all required steps).
 It does not imply anything about whether edits actually reflect what the user intended.
@@ -59,6 +72,8 @@ Adding quality metrics to this benchmark suite would be our highest-priority are
 Two secondary areas of future research exist.
 The first involves further investigation into why members of the GPT family consistently avoid invoking \texttt{rename\_file}.
 The second involves verifying this benchmark against real-world application via human-centered studies examining qualitative differences based on user feedback.
+
+\subsubsection{UX improvements}
 
 Alongside improving assessments, multiple UX feature enhancements for Spartan Write warrant exploration.
 These include adding undo functionality for agent actions, enabling real-time multi-user collaboration features, and integrating SyncTeX into Spartan Write (to enable agents to edit PDF files more accurately by correlating PDF coordinates with their respective source locations).

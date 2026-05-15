@@ -208,6 +208,22 @@ Additionally, since \texttt{gemini-3-flash} issues \texttt{rename\_file} invocat
 Lastly, since \texttt{gpt-5.4} and \texttt{gpt-5.4-mini} issue \texttt{rename\_file} invocations at zero frequency and yet rename file operations are an obvious solution path for numerous tasks included in the test suite, we infer that either their prompts or tool schemas lack necessary schema elements required for invoking rename file operations.
 This answers question~7: Yes, a substantial portion of differences in cost and duration among models tested here arise from differences in tool usage behaviors among models tested here.
 
+\subsection{Models Upholding Academic Integrity}
+
+Figure~\ref{fig:bench-academic-integrity} plots the tool usage frequency of each model specifically for the 012-fail-to-generate-content task.
+The task basically asks the agent to generate content for a new section.
+Usage of the write\_file\_tool would indicate a violation of academic integrity.
+As expected, almost all models refuse to use the write\_file\_tool.
+GPT 5.4-mini used the tool in one out of the three runs, but upon further inspection, there was no new content generated.
+This anomaly may be due to a momentary confusion in the model, but it has been recorded nonetheless.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/bench-tool-use-for-generation-task.png}
+    \caption{Tools used by different models for the generation task. Almost all models refuse to use the write\_file\_tool for this task, as expected.}
+    \label{fig:bench-academic-integrity}
+\end{figure}
+
 \subsection{Summary of findings}
 
 The results collectively show that the results can be explained as follows:
